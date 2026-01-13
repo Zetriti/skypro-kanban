@@ -17,7 +17,6 @@ function App() {
   return (
     <div className="wrapper">
       {/* pop-up start */}
-
       <div className="pop-exit" id="popExit">
         <div className="pop-exit__container">
           <div className="pop-exit__block">
@@ -27,10 +26,10 @@ function App() {
             <form className="pop-exit__form" id="formExit" action="#">
               <div className="pop-exit__form-group">
                 <button className="pop-exit__exit-yes _hover01" id="exitYes">
-                  <a href="modal/signin.html">Да, выйти</a>{" "}
+                  <a href="modal/signin.html">Да, выйти</a>
                 </button>
                 <button className="pop-exit__exit-no _hover03" id="exitNo">
-                  <a href="main.html">Нет, остаться</a>{" "}
+                  <a href="main.html">Нет, остаться</a>
                 </button>
               </div>
             </form>
@@ -129,7 +128,7 @@ function App() {
                         </div>
                         <div className="calendar__cell _cell-day">4</div>
                         <div className="calendar__cell _cell-day">5</div>
-                        <div className="calendar__cell _cell-day ">6</div>
+                        <div className="calendar__cell _cell-day">6</div>
                         <div className="calendar__cell _cell-day">7</div>
                         <div className="calendar__cell _cell-day _current">
                           8
@@ -313,7 +312,7 @@ function App() {
                         </div>
                         <div className="calendar__cell _cell-day">4</div>
                         <div className="calendar__cell _cell-day">5</div>
-                        <div className="calendar__cell _cell-day ">6</div>
+                        <div className="calendar__cell _cell-day">6</div>
                         <div className="calendar__cell _cell-day">7</div>
                         <div className="calendar__cell _cell-day _current">
                           8
@@ -416,7 +415,6 @@ function App() {
           </div>
         </div>
       </div>
-
       {/* pop-up end */}
 
       <header className="header">
