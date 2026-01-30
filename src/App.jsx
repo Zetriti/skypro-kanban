@@ -1,34 +1,40 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
+import PopNewCard from "./components/PopNewCard/PopNewCard";
+import PopBrowse from "./components/PopBrowse/PopBrowse";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="wrapper">
+      {/* pop-up start */}
+      <div className="pop-exit" id="popExit">
+        <div className="pop-exit__container">
+          <div className="pop-exit__block">
+            <div className="pop-exit__ttl">
+              <h2>Выйти из аккаунта?</h2>
+            </div>
+            <form className="pop-exit__form" id="formExit" action="#">
+              <div className="pop-exit__form-group">
+                <button className="pop-exit__exit-yes _hover01" id="exitYes">
+                  <a href="modal/signin.html">Да, выйти</a>
+                </button>
+                <button className="pop-exit__exit-no _hover03" id="exitNo">
+                  <a href="main.html">Нет, остаться</a>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <PopNewCard />
+      <PopBrowse />
+      {/* pop-up end */}
+
+      <Header />
+      <Main />
+    </div>
   );
 }
 
