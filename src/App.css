@@ -58,6 +58,15 @@ body {
   padding: 0 30px;
 }
 
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  text-align: center;
+}
+
 ._hover01:hover {
   background-color: #33399b;
 }

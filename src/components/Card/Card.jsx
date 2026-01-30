@@ -1,6 +1,6 @@
-const Card = ({ theme, text, title, date }) => {
+const Card = ({ id, theme, text, title, date }) => {
   return (
-    <div className="cards__item">
+    <div className="cards__item" key={id}>
       <div className="cards__card card">
         <div className="card__group">
           <div className={`card__theme _${theme}`}>

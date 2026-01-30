@@ -3,8 +3,27 @@ import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import PopNewCard from "./components/PopNewCard/PopNewCard";
 import PopBrowse from "./components/PopBrowse/PopBrowse";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+  if (loading) {
+    return (
+      <main className="main">
+        <div className="container">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Данные загружаются...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
   return (
     <div className="wrapper">
       {/* pop-up start */}
@@ -33,7 +52,7 @@ function App() {
       {/* pop-up end */}
 
       <Header />
-      <Main />
+      <Main loading={loading} />
     </div>
   );
 }
