@@ -1,5 +1,6 @@
 import Column from "../Column/Column";
 import { cardList, columnTitles } from "../../data.js";
+import { MainWrapper, MainBlock, MainContent } from "./Main.styled";
 
 const Main = () => {
   const groupedCards = columnTitles.map((title) => ({
@@ -8,17 +9,17 @@ const Main = () => {
   }));
 
   return (
-    <main className="main">
+    <MainWrapper>
       <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+        <MainBlock>
+          <MainContent>
             {groupedCards.map((column, index) => (
               <Column key={index} title={column.title} cards={column.cards} />
             ))}
-          </div>
-        </div>
+          </MainContent>
+        </MainBlock>
       </div>
-    </main>
+    </MainWrapper>
   );
 };
 
