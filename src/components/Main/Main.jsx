@@ -1,112 +1,25 @@
 import Column from "../Column/Column";
+import { cardList, columnTitles } from "../../data.js";
+import { MainWrapper, MainBlock, MainContent } from "./Main.styled";
 
 const Main = () => {
-  const columnsData = [
-    {
-      title: "Без статуса",
-      cards: [
-        {
-          theme: "orange",
-          text: "Web Design",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "green",
-          text: "Research",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "orange",
-          text: "Web Design",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "purple",
-          text: "Copywriting",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "orange",
-          text: "Web Design",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-      ],
-    },
-    {
-      title: "Нужно сделать",
-      cards: [
-        {
-          theme: "green",
-          text: "Research",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-      ],
-    },
-    {
-      title: "В работе",
-      cards: [
-        {
-          theme: "green",
-          text: "Research",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "purple",
-          text: "Copywriting",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-        {
-          theme: "orange",
-          text: "Web Design",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-      ],
-    },
-    {
-      title: "Тестирование",
-      cards: [
-        {
-          theme: "green",
-          text: "Research",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-      ],
-    },
-    {
-      title: "Готово",
-      cards: [
-        {
-          theme: "green",
-          text: "Research",
-          title: "Название задачи",
-          date: "30.10.23",
-        },
-      ],
-    },
-  ];
+  const groupedCards = columnTitles.map((title) => ({
+    title,
+    cards: cardList.filter((card) => card.status === title),
+  }));
 
   return (
-    <main className="main">
+    <MainWrapper>
       <div className="container">
-        <div className="main__block">
-          <div className="main__content">
-            {columnsData.map((column, index) => (
+        <MainBlock>
+          <MainContent>
+            {groupedCards.map((column, index) => (
               <Column key={index} title={column.title} cards={column.cards} />
             ))}
-          </div>
-        </div>
+          </MainContent>
+        </MainBlock>
       </div>
-    </main>
+    </MainWrapper>
   );
 };
 
