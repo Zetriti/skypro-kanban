@@ -1,21 +1,47 @@
+import React from "react";
+import styled from "styled-components";
 import {
   CardItem,
   Card as CardStyled,
   CardGroup,
-  CardTheme,
   CardButton,
   CardContent,
   CardTitle,
   CardDate,
 } from "./Cards.styled";
 
-const Card = ({ id, theme, text, title, date }) => {
+const getThemeColors = (topic) => {
+  switch (topic) {
+    case "Web Design":
+      return { bg: "#ffe4c2", color: "#ff6d00" };
+    case "Research":
+      return { bg: "#b4fdd1", color: "#06b16e" };
+    case "Copywriting":
+      return { bg: "#e9d4ff", color: "#9a48f1" };
+    default:
+      return { bg: "#94a6be", color: "#ffffff" };
+  }
+};
+
+const CardTheme = styled.div`
+  width: auto;
+  height: 20px;
+  padding: 5px 14px;
+  border-radius: 18px;
+  background-color: ${({ $topic }) => getThemeColors($topic).bg};
+  color: ${({ $topic }) => getThemeColors($topic).color};
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 10px;
+`;
+
+const Card = ({ id, text, title, date }) => {
   return (
     <CardItem key={id}>
       <CardStyled>
         <CardGroup>
-          <CardTheme className={`_${theme}`}>
-            <p className={`_${theme}`}>{text}</p>
+          <CardTheme $topic={text}>
+            <p>{text}</p>
           </CardTheme>
           <a href="#popBrowse" target="_self">
             <CardButton>

@@ -1,3 +1,4 @@
+import React from "react";
 import PopUser from "../PopUser/PopUser";
 import { useState } from "react";
 import {
@@ -37,16 +38,10 @@ const Header = () => {
             </a>
           </HeaderLogo>
           <HeaderNav>
-            <HeaderButton className="_hover01" id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+            <HeaderButton id="btnMainNew">
+              <a href="#PopNewCard">Создать новую задачу</a>
             </HeaderButton>
-            <HeaderUser
-              href="#user-set-target"
-              className="_hover02"
-              onClick={togglePopUser}
-            >
-              Ivan Ivanov
-            </HeaderUser>
+            <HeaderUser onClick={togglePopUser}>Ivan Ivanov</HeaderUser>
             <PopUser isOpen={isPopUserOpen} onClose={closePopUser} />
           </HeaderNav>
         </HeaderBlock>

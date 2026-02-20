@@ -1,3 +1,4 @@
+import React from "react";
 import Column from "../Column/Column";
 import { cardList, columnTitles } from "../../data.js";
 import { MainWrapper, MainBlock, MainContent } from "./Main.styled";

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { hover01, hover02 } from "../../shared.styled";
 
 export const HeaderWrapper = styled.header`
   width: 100%;
@@ -56,9 +57,7 @@ export const HeaderButton = styled.button`
     color: #ffffff;
   }
 
-  &:hover {
-    background-color: #33399b;
-  }
+  ${hover01}
 
   @media screen and (max-width: 495px) {
     z-index: 3;
@@ -98,12 +97,5 @@ export const HeaderUser = styled.a`
     padding: 0;
   }
 
-  &:hover {
-    color: #33399b;
-
-    &::after {
-      border-left-color: #33399b;
-      border-bottom-color: #33399b;
-    }
-  }
+  ${hover02}
 `;

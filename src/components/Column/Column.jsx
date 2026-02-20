@@ -1,3 +1,4 @@
+import React from "react";
 import Card from "../Card/Card";
 import { ColumnWrapper, ColumnTitle, CardsContainer } from "./Column.styled";
 
@@ -12,7 +13,6 @@ const Column = ({ title, cards }) => {
           <Card
             key={card.id}
             id={card.id}
-            theme={card.theme}
             text={card.text}
             title={card.title}
             date={card.date}

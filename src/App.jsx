@@ -1,9 +1,11 @@
+import React from "react";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import PopNewCard from "./components/PopNewCard/PopNewCard";
 import PopBrowse from "./components/PopBrowse/PopBrowse";
 import { useEffect, useState } from "react";
-import { GlobalStyles, LoadingContainer } from "./GlobalStyles.styled";
+import { GlobalStyles } from "./GlobalStyles.styled";
+import { LoadingContainer } from "./components/Loading.styled";
 import "./other.css";
 
 function App() {
