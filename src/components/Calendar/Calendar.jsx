@@ -1,5 +1,54 @@
 import React from "react";
-const Calendar = ({ isBrowse = false }) => {
+
+const Calendar = ({ isBrowse = false, selectedDate, onDateChange }) => {
+  // Пока статичный сентябрь 2023, но для демонстрации добавим обработчики кликов
+  const handleDayClick = (day) => {
+    if (!isBrowse && onDateChange) {
+      // Формируем дату в формате DD.MM.YY (как в макете)
+      const dateStr = `${day}.09.23`;
+      onDateChange(dateStr);
+    }
+  };
+
+  // Генерация дней (упрощённо, как в original)
+  const days = [
+    { day: 28, otherMonth: true },
+    { day: 29, otherMonth: true },
+    { day: 30, otherMonth: true },
+    { day: 31, otherMonth: false },
+    { day: 1, otherMonth: false },
+    { day: 2, otherMonth: false, weekend: true },
+    { day: 3, otherMonth: false, weekend: true },
+    { day: 4, otherMonth: false },
+    { day: 5, otherMonth: false },
+    { day: 6, otherMonth: false },
+    { day: 7, otherMonth: false },
+    { day: 8, otherMonth: false, current: true },
+    { day: 9, otherMonth: false, weekend: true },
+    { day: 10, otherMonth: false, weekend: true },
+    { day: 11, otherMonth: false },
+    { day: 12, otherMonth: false },
+    { day: 13, otherMonth: false },
+    { day: 14, otherMonth: false },
+    { day: 15, otherMonth: false },
+    { day: 16, otherMonth: false, weekend: true },
+    { day: 17, otherMonth: false, weekend: true },
+    { day: 18, otherMonth: false },
+    { day: 19, otherMonth: false },
+    { day: 20, otherMonth: false },
+    { day: 21, otherMonth: false },
+    { day: 22, otherMonth: false },
+    { day: 23, otherMonth: false, weekend: true },
+    { day: 24, otherMonth: false, weekend: true },
+    { day: 25, otherMonth: false },
+    { day: 26, otherMonth: false },
+    { day: 27, otherMonth: false },
+    { day: 28, otherMonth: false },
+    { day: 29, otherMonth: false },
+    { day: 30, otherMonth: false, weekend: true },
+    { day: 1, otherMonth: true, weekend: true },
+  ];
+
   return (
     <div className="pop-new-card__calendar calendar">
       <p className="calendar__ttl subttl">Даты</p>
@@ -40,44 +89,25 @@ const Calendar = ({ isBrowse = false }) => {
             <div className="calendar__day-name -weekend-">вс</div>
           </div>
           <div className="calendar__cells">
-            <div className="calendar__cell _other-month">28</div>
-            <div className="calendar__cell _other-month">29</div>
-            <div className="calendar__cell _other-month">30</div>
-            <div className="calendar__cell _cell-day">31</div>
-            <div className="calendar__cell _cell-day">1</div>
-            <div className="calendar__cell _cell-day _weekend">2</div>
-            <div className="calendar__cell _cell-day _weekend">3</div>
-            <div className="calendar__cell _cell-day">4</div>
-            <div className="calendar__cell _cell-day">5</div>
-            <div className="calendar__cell _cell-day">6</div>
-            <div className="calendar__cell _cell-day">7</div>
-            <div className="calendar__cell _cell-day _current">8</div>
-            <div className="calendar__cell _cell-day _weekend">
-              {isBrowse ? "9" : "9"}
-              {isBrowse && <span className="_active-day"></span>}
-            </div>
-            <div className="calendar__cell _cell-day _weekend">10</div>
-            <div className="calendar__cell _cell-day">11</div>
-            <div className="calendar__cell _cell-day">12</div>
-            <div className="calendar__cell _cell-day">13</div>
-            <div className="calendar__cell _cell-day">14</div>
-            <div className="calendar__cell _cell-day">15</div>
-            <div className="calendar__cell _cell-day _weekend">16</div>
-            <div className="calendar__cell _cell-day _weekend">17</div>
-            <div className="calendar__cell _cell-day">18</div>
-            <div className="calendar__cell _cell-day">19</div>
-            <div className="calendar__cell _cell-day">20</div>
-            <div className="calendar__cell _cell-day">21</div>
-            <div className="calendar__cell _cell-day">22</div>
-            <div className="calendar__cell _cell-day _weekend">23</div>
-            <div className="calendar__cell _cell-day _weekend">24</div>
-            <div className="calendar__cell _cell-day">25</div>
-            <div className="calendar__cell _cell-day">26</div>
-            <div className="calendar__cell _cell-day">27</div>
-            <div className="calendar__cell _cell-day">28</div>
-            <div className="calendar__cell _cell-day">29</div>
-            <div className="calendar__cell _cell-day _weekend">30</div>
-            <div className="calendar__cell _other-month _weekend">1</div>
+            {days.map((d, idx) => (
+              <div
+                key={idx}
+                className={`calendar__cell ${
+                  d.otherMonth ? "_other-month" : "_cell-day"
+                } ${d.weekend ? "_weekend" : ""} ${
+                  d.current ? "_current" : ""
+                } ${
+                  selectedDate &&
+                  parseInt(selectedDate.split(".")[0]) === d.day &&
+                  !d.otherMonth
+                    ? "_active-day"
+                    : ""
+                }`}
+                onClick={() => handleDayClick(d.day)}
+              >
+                {d.day}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -85,7 +115,9 @@ const Calendar = ({ isBrowse = false }) => {
         <div className="calendar__period">
           <p className="calendar__p date-end">
             {isBrowse ? "Срок исполнения:" : "Выберите срок исполнения"}{" "}
-            <span className="date-control">{isBrowse ? "09.09.23" : ""}</span>
+            <span className="date-control">
+              {selectedDate || (isBrowse ? "09.09.23" : "")}
+            </span>
             {!isBrowse && "."}
           </p>
         </div>

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import PopUser from "../PopUser/PopUser";
-import { useState } from "react";
 import {
   HeaderWrapper,
   HeaderBlock,
@@ -12,7 +12,7 @@ import {
 
 const Header = () => {
   const [isPopUserOpen, setIsPopUserOpen] = useState(false);
-  const [theme] = useState("light"); // Добавьте логику смены темы если нужно
+  const [theme] = useState("light");
 
   const togglePopUser = (e) => {
     e.preventDefault();
@@ -28,18 +28,18 @@ const Header = () => {
       <div className="container">
         <HeaderBlock>
           <HeaderLogo theme={theme} className="_show _light">
-            <a href="" target="_self">
-              <img src="images/logo.png" alt="logo" />
-            </a>
+            <Link to="/">
+              <img src="/images/logo.png" alt="logo" />
+            </Link>
           </HeaderLogo>
           <HeaderLogo theme={theme} className="_dark">
-            <a href="" target="_self">
-              <img src="images/logo_dark.png" alt="logo" />
-            </a>
+            <Link to="/">
+              <img src="/images/logo_dark.png" alt="logo" />
+            </Link>
           </HeaderLogo>
           <HeaderNav>
             <HeaderButton id="btnMainNew">
-              <a href="#PopNewCard">Создать новую задачу</a>
+              <Link to="/add">Создать новую задачу</Link>
             </HeaderButton>
             <HeaderUser onClick={togglePopUser}>Ivan Ivanov</HeaderUser>
             <PopUser isOpen={isPopUserOpen} onClose={closePopUser} />

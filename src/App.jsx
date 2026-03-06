@@ -1,68 +1,70 @@
-import React from "react";
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
-import PopNewCard from "./components/PopNewCard/PopNewCard";
-import PopBrowse from "./components/PopBrowse/PopBrowse";
-import { useEffect, useState } from "react";
+// src/App.jsx
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { TasksProvider } from "./context/TasksContext"; // путь должен быть корректным
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Board from "./pages/Board";
+import CardDetails from "./pages/CardDetails";
+import AddTask from "./pages/AddTask";
+import Exit from "./pages/Exit";
+import NotFound from "./pages/NotFound";
 import { GlobalStyles } from "./GlobalStyles.styled";
-import { LoadingContainer } from "./components/Loading.styled";
 import "./other.css";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
-  if (loading) {
-    return (
-      <main className="main">
-        <div className="container">
-          <LoadingContainer>
-            <div className="loading-spinner"></div>
-            <p className="loading-text">Данные загружаются...</p>
-          </LoadingContainer>
-        </div>
-      </main>
-    );
-  }
+  const handleLogin = () => setIsAuth(true);
+  const handleLogout = () => setIsAuth(false);
 
   return (
-    <>
+    <TasksProvider>
       <GlobalStyles />
       <div className="wrapper">
-        {/* pop-up start */}
-        <div className="pop-exit" id="popExit">
-          <div className="pop-exit__container">
-            <div className="pop-exit__block">
-              <div className="pop-exit__ttl">
-                <h2>Выйти из аккаунта?</h2>
-              </div>
-              <form className="pop-exit__form" id="formExit" action="#">
-                <div className="pop-exit__form-group">
-                  <button className="pop-exit__exit-yes _hover01" id="exitYes">
-                    <a href="modal/signin.html">Да, выйти</a>
-                  </button>
-                  <button className="pop-exit__exit-no _hover03" id="exitNo">
-                    <a href="main.html">Нет, остаться</a>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <PopNewCard />
-        <PopBrowse />
-        {/* pop-up end */}
-
-        <Header />
-        <Main />
+        <Routes>
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/register"
+            element={<Register onLogin={handleLogin} />}
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Board />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/card/:id"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <CardDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <AddTask />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/exit"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Exit onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-    </>
+    </TasksProvider>
   );
 }
 
