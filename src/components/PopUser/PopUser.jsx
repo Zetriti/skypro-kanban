@@ -1,16 +1,25 @@
-const PopUser = () => {
+import React from "react";
+import {
+  PopUserContainer,
+  PopUserName,
+  PopUserMail,
+  ThemeRow,
+  LogoutButton,
+} from "./PopUser.styled";
+
+const PopUser = ({ isOpen, onClose }) => {
   return (
-    <div className="header__pop-user-set pop-user-set" id="user-set-target">
-      <p className="pop-user-set__name">Ivan Ivanov</p>
-      <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-      <div className="pop-user-set__theme">
+    <PopUserContainer $isOpen={isOpen}>
+      <PopUserName>Ivan Ivanov</PopUserName>
+      <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+      <ThemeRow>
         <p>Темная тема</p>
         <input type="checkbox" className="checkbox" name="checkbox" />
-      </div>
-      <button type="button" className="_hover03">
+      </ThemeRow>
+      <LogoutButton type="button" onClick={onClose}>
         <a href="#popExit">Выйти</a>
-      </button>
-    </div>
+      </LogoutButton>
+    </PopUserContainer>
   );
 };
 

@@ -1,8 +1,9 @@
+import React from "react";
 import Calendar from "../Calendar/Calendar";
 
 const PopNewCard = () => {
   return (
-    <div className="pop-new-card" id="popNewCard">
+    <div className="pop-new-card" id="PopNewCard">
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">

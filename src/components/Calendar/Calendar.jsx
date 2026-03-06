@@ -1,3 +1,4 @@
+import React from "react";
 const Calendar = ({ isBrowse = false }) => {
   return (
     <div className="pop-new-card__calendar calendar">

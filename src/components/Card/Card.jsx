@@ -1,24 +1,61 @@
-const Card = ({ theme, text, title, date }) => {
+import React from "react";
+import styled from "styled-components";
+import {
+  CardItem,
+  Card as CardStyled,
+  CardGroup,
+  CardButton,
+  CardContent,
+  CardTitle,
+  CardDate,
+} from "./Cards.styled";
+
+const getThemeColors = (topic) => {
+  switch (topic) {
+    case "Web Design":
+      return { bg: "#ffe4c2", color: "#ff6d00" };
+    case "Research":
+      return { bg: "#b4fdd1", color: "#06b16e" };
+    case "Copywriting":
+      return { bg: "#e9d4ff", color: "#9a48f1" };
+    default:
+      return { bg: "#94a6be", color: "#ffffff" };
+  }
+};
+
+const CardTheme = styled.div`
+  width: auto;
+  height: 20px;
+  padding: 5px 14px;
+  border-radius: 18px;
+  background-color: ${({ $topic }) => getThemeColors($topic).bg};
+  color: ${({ $topic }) => getThemeColors($topic).color};
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 10px;
+`;
+
+const Card = ({ id, text, title, date }) => {
   return (
-    <div className="cards__item">
-      <div className="cards__card card">
-        <div className="card__group">
-          <div className={`card__theme _${theme}`}>
-            <p className={`_${theme}`}>{text}</p>
-          </div>
+    <CardItem key={id}>
+      <CardStyled>
+        <CardGroup>
+          <CardTheme $topic={text}>
+            <p>{text}</p>
+          </CardTheme>
           <a href="#popBrowse" target="_self">
-            <div className="card__btn">
+            <CardButton>
               <div></div>
               <div></div>
               <div></div>
-            </div>
+            </CardButton>
           </a>
-        </div>
-        <div className="card__content">
+        </CardGroup>
+        <CardContent>
           <a href="" target="_blank">
-            <h3 className="card__title">{title}</h3>
+            <CardTitle>{title}</CardTitle>
           </a>
-          <div className="card__date">
+          <CardDate>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="13"
@@ -48,10 +85,10 @@ const Card = ({ theme, text, title, date }) => {
               </defs>
             </svg>
             <p>{date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardDate>
+        </CardContent>
+      </CardStyled>
+    </CardItem>
   );
 };
 
