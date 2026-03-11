@@ -1,8 +1,7 @@
-// src/pages/Board.jsx
 import React from "react";
 import Header from "../components/Header/Header";
 import Column from "../components/Column/Column";
-import { useTasks } from "../context/TasksContext";
+import { useTasks } from "../hooks/useTasks";
 import { columnTitles } from "../data";
 import {
   MainWrapper,

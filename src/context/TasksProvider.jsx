@@ -1,8 +1,6 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState } from "react";
+import React, { useState } from "react";
+import { TasksContext } from "./TasksContext";
 import { cardList as initialCards } from "../data";
-
-const TasksContext = createContext();
 
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState(initialCards);
@@ -20,7 +18,6 @@ export const TasksProvider = ({ children }) => {
   };
 
   const addTask = (newTask) => {
-    // Генерируем новый id (для примера)
     const newId = Math.max(...tasks.map((t) => t.id), 0) + 1;
     setTasks([...tasks, { ...newTask, id: newId }]);
   };
@@ -30,12 +27,4 @@ export const TasksProvider = ({ children }) => {
       {children}
     </TasksContext.Provider>
   );
-};
-
-export const useTasks = () => {
-  const context = useContext(TasksContext);
-  if (!context) {
-    throw new Error("useTasks must be used within a TasksProvider");
-  }
-  return context;
 };
