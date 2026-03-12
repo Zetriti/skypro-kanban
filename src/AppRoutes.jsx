@@ -14,6 +14,8 @@ const AppRoutes = ({ isAuth, onLogin, onLogout }) => {
     <Routes>
       <Route path="/login" element={<Login onLogin={onLogin} />} />
       <Route path="/register" element={<Register onLogin={onLogin} />} />
+
+      {/* Защищённые маршруты, использующие Board как Layout */}
       <Route
         path="/"
         element={
@@ -21,23 +23,12 @@ const AppRoutes = ({ isAuth, onLogin, onLogout }) => {
             <Board />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/card/:id"
-        element={
-          <ProtectedRoute isAuth={isAuth}>
-            <CardDetails />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/add"
-        element={
-          <ProtectedRoute isAuth={isAuth}>
-            <AddTask />
-          </ProtectedRoute>
-        }
-      />
+      >
+        {/* Модальные окна как дочерние маршруты */}
+        <Route path="add" element={<AddTask />} />
+        <Route path="card/:id" element={<CardDetails />} />
+      </Route>
+
       <Route
         path="/exit"
         element={

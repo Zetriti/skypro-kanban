@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Column from "../components/Column/Column";
 import { useTasks } from "../hooks/useTasks";
@@ -24,13 +25,20 @@ const Board = () => {
         <div className="container">
           <MainBlock>
             <MainContent>
-              {groupedCards.map((column, index) => (
-                <Column key={index} title={column.title} cards={column.cards} />
+              {groupedCards.map((column) => (
+                <Column
+                  key={column.title}
+                  title={column.title}
+                  cards={column.cards}
+                />
               ))}
             </MainContent>
           </MainBlock>
         </div>
       </MainWrapper>
+
+      {/* Outlet для отображения модальных окон */}
+      <Outlet />
     </>
   );
 };

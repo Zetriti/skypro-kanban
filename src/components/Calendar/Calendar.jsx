@@ -1,51 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./Calendar.styled";
 
-const Calendar = ({ isBrowse = false, selectedDate, onDateChange }) => {
-  const handleDayClick = (day) => {
-    if (!isBrowse && onDateChange) {
-      const dateStr = `${day}.09.23`;
-      onDateChange(dateStr);
-    }
-  };
+const Calendar = ({ selectedDate, onDateChange }) => {
+  const isEditable = typeof onDateChange === "function";
 
-  const days = [
-    { id: "day-0", day: 28, otherMonth: true },
-    { id: "day-1", day: 29, otherMonth: true },
-    { id: "day-2", day: 30, otherMonth: true },
-    { id: "day-3", day: 31, otherMonth: false },
-    { id: "day-4", day: 1, otherMonth: false },
-    { id: "day-5", day: 2, otherMonth: false, weekend: true },
-    { id: "day-6", day: 3, otherMonth: false, weekend: true },
-    { id: "day-7", day: 4, otherMonth: false },
-    { id: "day-8", day: 5, otherMonth: false },
-    { id: "day-9", day: 6, otherMonth: false },
-    { id: "day-10", day: 7, otherMonth: false },
-    { id: "day-11", day: 8, otherMonth: false, current: true },
-    { id: "day-12", day: 9, otherMonth: false, weekend: true },
-    { id: "day-13", day: 10, otherMonth: false, weekend: true },
-    { id: "day-14", day: 11, otherMonth: false },
-    { id: "day-15", day: 12, otherMonth: false },
-    { id: "day-16", day: 13, otherMonth: false },
-    { id: "day-17", day: 14, otherMonth: false },
-    { id: "day-18", day: 15, otherMonth: false },
-    { id: "day-19", day: 16, otherMonth: false, weekend: true },
-    { id: "day-20", day: 17, otherMonth: false, weekend: true },
-    { id: "day-21", day: 18, otherMonth: false },
-    { id: "day-22", day: 19, otherMonth: false },
-    { id: "day-23", day: 20, otherMonth: false },
-    { id: "day-24", day: 21, otherMonth: false },
-    { id: "day-25", day: 22, otherMonth: false },
-    { id: "day-26", day: 23, otherMonth: false, weekend: true },
-    { id: "day-27", day: 24, otherMonth: false, weekend: true },
-    { id: "day-28", day: 25, otherMonth: false },
-    { id: "day-29", day: 26, otherMonth: false },
-    { id: "day-30", day: 27, otherMonth: false },
-    { id: "day-31", day: 28, otherMonth: false },
-    { id: "day-32", day: 29, otherMonth: false },
-    { id: "day-33", day: 30, otherMonth: false, weekend: true },
-    { id: "day-34", day: 1, otherMonth: true, weekend: true },
+  const [currentDate] = useState(new Date(2023, 8, 1));
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const monthNames = [
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
   ];
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+  const today = new Date();
+  const isToday = (day, otherMonth) =>
+    !otherMonth &&
+    day === today.getDate() &&
+    month === today.getMonth() &&
+    year === today.getFullYear();
+
+  const days = [];
+
+  for (let i = 0; i < startOffset; i++) {
+    const day = daysInPrevMonth - startOffset + i + 1;
+    days.push({
+      day,
+      otherMonth: true,
+      weekend: false,
+      current: false,
+      key: `prev-${i}`,
+    });
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    const dayOfWeek = date.getDay();
+    const weekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const current = isToday(d, false);
+    days.push({
+      day: d,
+      otherMonth: false,
+      weekend,
+      current,
+      key: `current-${d}`,
+    });
+  }
+
+  const remaining = 42 - days.length;
+  for (let i = 1; i <= remaining; i++) {
+    days.push({
+      day: i,
+      otherMonth: true,
+      weekend: false,
+      current: false,
+      key: `next-${i}`,
+    });
+  }
+
+  const handleDayClick = (day, otherMonth) => {
+    if (!isEditable || otherMonth) return;
+    const formatted = `${day.toString().padStart(2, "0")}.${(month + 1)
+      .toString()
+      .padStart(2, "0")}.${year.toString().slice(-2)}`;
+    onDateChange(formatted);
+  };
 
   const selectedDay = selectedDate
     ? parseInt(selectedDate.split(".")[0])
@@ -56,7 +91,9 @@ const Calendar = ({ isBrowse = false, selectedDate, onDateChange }) => {
       <S.CalendarTitle>Даты</S.CalendarTitle>
       <S.CalendarBlock>
         <S.CalendarNav>
-          <S.CalendarMonth>Сентябрь 2023</S.CalendarMonth>
+          <S.CalendarMonth>
+            {monthNames[month]} {year}
+          </S.CalendarMonth>
           <S.NavActions>
             <S.NavAction data-action="prev">
               <svg
@@ -80,6 +117,7 @@ const Calendar = ({ isBrowse = false, selectedDate, onDateChange }) => {
             </S.NavAction>
           </S.NavActions>
         </S.CalendarNav>
+
         <S.CalendarContent>
           <S.DaysNames>
             <S.DayName>пн</S.DayName>
@@ -90,27 +128,40 @@ const Calendar = ({ isBrowse = false, selectedDate, onDateChange }) => {
             <S.DayName>сб</S.DayName>
             <S.DayName>вс</S.DayName>
           </S.DaysNames>
+
           <S.Cells>
-            {days.map((d) => (
-              <S.Cell
-                key={d.id}
-                className={`${d.otherMonth ? "other-month" : "cell-day"} ${
-                  d.current ? "current" : ""
-                } ${selectedDay === d.day && !d.otherMonth ? "active-day" : ""}`}
-                onClick={() => handleDayClick(d.day)}
-              >
-                {d.day}
-              </S.Cell>
-            ))}
+            {days.map((d) => {
+              let cellClass = "";
+              if (d.otherMonth) {
+                cellClass = "other-month";
+              } else {
+                cellClass = "cell-day";
+              }
+              if (d.weekend) cellClass += " weekend";
+              if (d.current) cellClass += " current";
+              if (selectedDay === d.day && !d.otherMonth)
+                cellClass += " active-day";
+
+              return (
+                <S.Cell
+                  key={d.key}
+                  className={cellClass}
+                  onClick={() => handleDayClick(d.day, d.otherMonth)}
+                >
+                  {d.day}
+                </S.Cell>
+              );
+            })}
           </S.Cells>
         </S.CalendarContent>
 
         <input type="hidden" id="datepick_value" defaultValue="08.09.2023" />
+
         <S.CalendarPeriod>
           <S.PeriodText>
-            {isBrowse ? "Срок исполнения:" : "Выберите срок исполнения"}{" "}
-            <span>{selectedDate || (isBrowse ? "09.09.23" : "")}</span>
-            {!isBrowse && "."}
+            {selectedDate
+              ? `Срок исполнения: ${selectedDate}`
+              : "Выберите срок исполнения."}
           </S.PeriodText>
         </S.CalendarPeriod>
       </S.CalendarBlock>

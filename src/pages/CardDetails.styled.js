@@ -1,29 +1,63 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  padding: 20px;
-  max-width: 630px;
-  margin: 40px auto;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+export const PopBrowse = styled.div`
+  display: block;
+  width: 100%;
+  min-width: 375px;
+  height: 100%;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 7;
 `;
 
-export const TopBlock = styled.div`
+export const PopBrowseContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+`;
+
+export const PopBrowseBlock = styled.div`
+  display: block;
+  margin: 0 auto;
+  background-color: #ffffff;
+  max-width: 630px;
+  width: 100%;
+  padding: 40px 30px 38px;
+  border-radius: 10px;
+  border: 0.7px solid #d4dbe5;
+  position: relative;
+  cursor: default;
+`;
+
+export const PopBrowseContent = styled.div`
+  display: block;
+  text-align: left;
+`;
+
+export const PopBrowseTopBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
 `;
 
-export const Title = styled.h3`
+export const PopBrowseTtl = styled.h3`
   color: #000;
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
 `;
 
-export const ThemeTag = styled.div`
+export const ThemeTop = styled.div`
   display: inline-block;
   width: auto;
   height: 30px;
@@ -65,7 +99,7 @@ export const StatusSection = styled.div`
   margin-bottom: 11px;
 `;
 
-export const StatusTitle = styled.p`
+export const StatusP = styled.p`
   margin-bottom: 14px;
   color: #000;
   font-size: 14px;
@@ -102,37 +136,36 @@ export const StatusTheme = styled.div`
   }
 `;
 
-export const Wrap = styled.div`
+export const PopBrowseWrap = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
   @media (max-width: 660px) {
-    flex-direction: column;
+    display: block;
   }
 `;
 
-export const Form = styled.form`
+export const FormBrowse = styled.form`
   max-width: 370px;
   width: 100%;
   display: block;
   margin-bottom: 20px;
 `;
 
-export const FormBlock = styled.div`
+export const FormBrowseBlock = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const Label = styled.label`
+export const Subttl = styled.label`
   color: #000;
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
-  margin-bottom: 5px;
 `;
 
-export const TextArea = styled.textarea`
+export const FormBrowseArea = styled.textarea`
+  max-width: 370px;
   width: 100%;
   outline: none;
   padding: 14px;
@@ -145,23 +178,27 @@ export const TextArea = styled.textarea`
   margin-top: 14px;
   height: 200px;
   resize: vertical;
-  color: #000;
   &[readonly] {
     background: #eaeef6;
   }
-`;
-
-export const CategorySection = styled.div`
-  margin-bottom: 20px;
-  &.theme-down {
-    display: none;
-    @media (max-width: 495px) {
-      display: block;
-    }
+  &::placeholder {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1px;
+    color: #94a6be;
+    letter-spacing: -0.14px;
   }
 `;
 
-export const CategoryTitle = styled.p`
+export const ThemeDownCategories = styled.div`
+  margin-bottom: 20px;
+  display: none;
+  @media (max-width: 495px) {
+    display: block;
+  }
+`;
+
+export const CategoriesP = styled.p`
   margin-bottom: 14px;
   color: #000;
   font-size: 14px;
@@ -169,15 +206,7 @@ export const CategoryTitle = styled.p`
   line-height: 1;
 `;
 
-export const CategoryThemes = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 7px;
-`;
-
-export const CategoryTheme = styled.div`
+export const CategoriesTheme = styled.div`
   display: inline-block;
   width: auto;
   height: 30px;
@@ -207,7 +236,6 @@ export const CategoryTheme = styled.div`
         return "#ffffff";
     }
   }};
-  opacity: ${({ $active }) => ($active ? 1 : 0.4)};
   p {
     font-size: 14px;
     font-weight: 600;
@@ -216,68 +244,76 @@ export const CategoryTheme = styled.div`
   }
 `;
 
-export const ButtonGroup = styled.div`
+export const PopBrowseBtnBrowse = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  margin-top: 20px;
+  ${({ $hide }) => $hide && "display: none;"}
 `;
 
-export const LeftButtons = styled.div`
+export const PopBrowseBtnEdit = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  ${({ $hide }) => $hide && "display: none;"}
+`;
+
+export const BtnGroup = styled.div`
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 `;
 
-export const Button = styled.button`
+export const BtnBor = styled.button`
   height: 30px;
   padding: 0 14px;
   border-radius: 4px;
+  border: 0.7px solid #565eef;
+  outline: none;
+  background: transparent;
+  color: #565eef;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  border: none;
-  outline: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  &:hover {
+    background-color: #33399b;
+    color: #ffffff;
+    a {
+      color: #ffffff;
+    }
+  }
+  a {
+    color: #565eef;
+    text-decoration: none;
+  }
   @media (max-width: 495px) {
     width: 100%;
     height: 40px;
   }
 `;
 
-export const PrimaryButton = styled(Button)`
-  background-color: #565eef;
+export const BtnBg = styled.button`
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 4px;
+  background: #565eef;
+  border: none;
+  outline: none;
   color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
   &:hover {
     background-color: #33399b;
   }
-`;
-
-export const SecondaryButton = styled(Button)`
-  background-color: transparent;
-  border: 0.7px solid #565eef;
-  color: #565eef;
-  &:hover {
-    background-color: #565eef;
+  a {
     color: #ffffff;
+    text-decoration: none;
   }
-`;
-
-export const DangerButton = styled(Button)`
-  background-color: transparent;
-  border: 0.7px solid #565eef;
-  color: #565eef;
-  &:hover {
-    background-color: #565eef;
-    color: #ffffff;
-  }
-`;
-
-export const CloseButton = styled(PrimaryButton)`
   @media (max-width: 495px) {
     width: 100%;
+    height: 40px;
   }
 `;

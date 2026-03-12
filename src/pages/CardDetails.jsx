@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as S from "./CardDetails.styled";
-import Header from "../components/Header/Header";
 import Calendar from "../components/Calendar/Calendar";
 import { useTasks } from "../hooks/useTasks";
 
@@ -21,51 +20,34 @@ const CardDetails = () => {
   const [editedTask, setEditedTask] = useState(null);
 
   const task = tasks.find((t) => t.id === parseInt(id));
-
   useEffect(() => {
     if (task) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditedTask({ ...task });
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [task]);
 
   if (!task) {
-    return (
-      <>
-        <Header />
-        <S.Container>
-          <h2>Задача не найдена</h2>
-          <S.PrimaryButton onClick={() => navigate("/")}>
-            На главную
-          </S.PrimaryButton>
-        </S.Container>
-      </>
-    );
+    return null;
   }
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
+  const handleEdit = () => setIsEditing(true);
   const handleSave = () => {
     updateTask(editedTask);
     setIsEditing(false);
   };
-
   const handleCancel = () => {
     setEditedTask({ ...task });
     setIsEditing(false);
   };
-
   const handleDelete = () => {
     deleteTask(task.id);
     navigate("/");
   };
-
   const handleStatusChange = (status) => {
     if (!isEditing) return;
     setEditedTask({ ...editedTask, status });
   };
-
   const handleDescriptionChange = (e) => {
     if (!isEditing) return;
     setEditedTask({ ...editedTask, description: e.target.value });
@@ -78,90 +60,94 @@ const CardDetails = () => {
     return "gray";
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      navigate("/");
+    }
+  };
+
   return (
-    <>
-      <Header />
-      <S.Container>
-        <S.TopBlock>
-          <S.Title>{editedTask?.title || task.title}</S.Title>
-          <S.ThemeTag $color={getCategoryColor(task.text)}>
-            <p>{task.text}</p>
-          </S.ThemeTag>
-        </S.TopBlock>
+    <S.PopBrowse>
+      <S.PopBrowseContainer onClick={handleOverlayClick}>
+        <S.PopBrowseBlock>
+          <S.PopBrowseContent>
+            <S.PopBrowseTopBlock>
+              <S.PopBrowseTtl>{editedTask?.title || task.title}</S.PopBrowseTtl>
+              <S.ThemeTop $color={getCategoryColor(task.text)}>
+                <p>{task.text}</p>
+              </S.ThemeTop>
+            </S.PopBrowseTopBlock>
 
-        <S.StatusSection>
-          <S.StatusTitle>Статус</S.StatusTitle>
-          <S.StatusThemes>
-            {statuses.map((status) => (
-              <S.StatusTheme
-                key={status}
-                $active={status === (editedTask?.status || task.status)}
-                $isEditable={isEditing}
-                onClick={() => handleStatusChange(status)}
-              >
-                <p>{status}</p>
-              </S.StatusTheme>
-            ))}
-          </S.StatusThemes>
-        </S.StatusSection>
+            <S.StatusSection>
+              <S.StatusP>Статус</S.StatusP>
+              <S.StatusThemes>
+                {statuses.map((status) => (
+                  <S.StatusTheme
+                    key={status}
+                    $active={status === (editedTask?.status || task.status)}
+                    $isEditable={isEditing}
+                    onClick={() => handleStatusChange(status)}
+                  >
+                    <p>{status}</p>
+                  </S.StatusTheme>
+                ))}
+              </S.StatusThemes>
+            </S.StatusSection>
 
-        <S.Wrap>
-          <S.Form>
-            <S.FormBlock>
-              <S.Label htmlFor="description">Описание задачи</S.Label>
-              <S.TextArea
-                id="description"
-                value={editedTask?.description || task.description || ""}
-                onChange={handleDescriptionChange}
-                readOnly={!isEditing}
-                $isEditable={isEditing}
-                placeholder="Введите описание задачи..."
+            <S.PopBrowseWrap>
+              <S.FormBrowse>
+                <S.FormBrowseBlock>
+                  <S.Subttl htmlFor="description">Описание задачи</S.Subttl>
+                  <S.FormBrowseArea
+                    id="description"
+                    value={editedTask?.description || task.description || ""}
+                    onChange={handleDescriptionChange}
+                    readOnly={!isEditing}
+                    $isEditable={isEditing}
+                    placeholder="Введите описание задачи..."
+                  />
+                </S.FormBrowseBlock>
+              </S.FormBrowse>
+              <Calendar
+                selectedDate={editedTask?.date || task.date}
+                onDateChange={
+                  isEditing
+                    ? (newDate) =>
+                        setEditedTask({ ...editedTask, date: newDate })
+                    : undefined
+                }
               />
-            </S.FormBlock>
-          </S.Form>
-          <Calendar isBrowse={!isEditing} />
-        </S.Wrap>
+            </S.PopBrowseWrap>
 
-        <S.CategorySection className="theme-down">
-          <S.CategoryTitle>Категория</S.CategoryTitle>
-          <S.CategoryThemes>
-            <S.CategoryTheme
-              $color={getCategoryColor(task.text)}
-              $active={true}
-            >
-              <p>{task.text}</p>
-            </S.CategoryTheme>
-          </S.CategoryThemes>
-        </S.CategorySection>
+            <S.ThemeDownCategories>
+              <S.CategoriesP>Категория</S.CategoriesP>
+              <S.CategoriesTheme $color={getCategoryColor(task.text)}>
+                <p>{task.text}</p>
+              </S.CategoriesTheme>
+            </S.ThemeDownCategories>
 
-        {!isEditing ? (
-          <S.ButtonGroup>
-            <S.LeftButtons>
-              <S.SecondaryButton onClick={handleEdit}>
-                Редактировать задачу
-              </S.SecondaryButton>
-              <S.DangerButton onClick={handleDelete}>
-                Удалить задачу
-              </S.DangerButton>
-            </S.LeftButtons>
-            <S.CloseButton onClick={() => navigate("/")}>Закрыть</S.CloseButton>
-          </S.ButtonGroup>
-        ) : (
-          <S.ButtonGroup>
-            <S.LeftButtons>
-              <S.PrimaryButton onClick={handleSave}>Сохранить</S.PrimaryButton>
-              <S.SecondaryButton onClick={handleCancel}>
-                Отменить
-              </S.SecondaryButton>
-              <S.DangerButton onClick={handleDelete}>
-                Удалить задачу
-              </S.DangerButton>
-            </S.LeftButtons>
-            <S.CloseButton onClick={() => navigate("/")}>Закрыть</S.CloseButton>
-          </S.ButtonGroup>
-        )}
-      </S.Container>
-    </>
+            {!isEditing ? (
+              <S.PopBrowseBtnBrowse>
+                <S.BtnGroup>
+                  <S.BtnBor onClick={handleEdit}>Редактировать задачу</S.BtnBor>
+                  <S.BtnBor onClick={handleDelete}>Удалить задачу</S.BtnBor>
+                </S.BtnGroup>
+                <S.BtnBg onClick={() => navigate("/")}>Закрыть</S.BtnBg>
+              </S.PopBrowseBtnBrowse>
+            ) : (
+              <S.PopBrowseBtnEdit>
+                <S.BtnGroup>
+                  <S.BtnBg onClick={handleSave}>Сохранить</S.BtnBg>
+                  <S.BtnBor onClick={handleCancel}>Отменить</S.BtnBor>
+                  <S.BtnBor onClick={handleDelete}>Удалить задачу</S.BtnBor>
+                </S.BtnGroup>
+                <S.BtnBg onClick={() => navigate("/")}>Закрыть</S.BtnBg>
+              </S.PopBrowseBtnEdit>
+            )}
+          </S.PopBrowseContent>
+        </S.PopBrowseBlock>
+      </S.PopBrowseContainer>
+    </S.PopBrowse>
   );
 };
 
