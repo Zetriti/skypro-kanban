@@ -4,13 +4,21 @@ import AppRoutes from "./AppRoutes";
 import { GlobalStyles } from "./GlobalStyles.styled";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(true);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const isAuth = !!token;
 
-  const handleLogin = () => setIsAuth(true);
-  const handleLogout = () => setIsAuth(false);
+  const handleLogin = (newToken) => {
+    localStorage.setItem("token", newToken);
+    setToken(newToken);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
 
   return (
-    <TasksProvider>
+    <TasksProvider token={token}>
       <GlobalStyles />
       <div className="wrapper">
         <AppRoutes

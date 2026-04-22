@@ -9,10 +9,13 @@ import {
 } from "./PopUser.styled";
 
 const PopUser = ({ isOpen, onClose }) => {
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userName = user.name || "Ivan Ivanov";
+  const userEmail = user || "ivan.ivanov@gmail.com";
   return (
     <PopUserContainer $isOpen={isOpen}>
-      <PopUserName>Ivan Ivanov</PopUserName>
-      <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+      <PopUserName>{userName}</PopUserName>
+      <PopUserMail>{userEmail}</PopUserMail>
       <ThemeRow>
         <p>Темная тема</p>
         <input type="checkbox" className="checkbox" name="checkbox" />

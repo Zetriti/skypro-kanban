@@ -23,6 +23,9 @@ const Header = () => {
     setIsPopUserOpen(false);
   };
 
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userName = user.name || "Ivan Ivanov";
+
   return (
     <HeaderWrapper>
       <div className="container">
@@ -41,7 +44,7 @@ const Header = () => {
             <HeaderButton id="btnMainNew">
               <Link to="/add">Создать новую задачу</Link>
             </HeaderButton>
-            <HeaderUser onClick={togglePopUser}>Ivan Ivanov</HeaderUser>
+            <HeaderUser onClick={togglePopUser}>{userName}</HeaderUser>
             <PopUser isOpen={isPopUserOpen} onClose={closePopUser} />
           </HeaderNav>
         </HeaderBlock>

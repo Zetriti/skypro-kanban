@@ -1,3 +1,4 @@
+// src/pages/Board.jsx
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -11,7 +12,37 @@ import {
 } from "../components/Main/Main.styled";
 
 const Board = () => {
-  const { tasks } = useTasks();
+  const { tasks, loading, error } = useTasks();
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <MainWrapper>
+          <div className="container">
+            <MainBlock>
+              <p>Загрузка задач...</p>
+            </MainBlock>
+          </div>
+        </MainWrapper>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <MainWrapper>
+          <div className="container">
+            <MainBlock>
+              <p style={{ color: "red" }}>Ошибка: {error}</p>
+            </MainBlock>
+          </div>
+        </MainWrapper>
+      </>
+    );
+  }
 
   const groupedCards = columnTitles.map((title) => ({
     title,
@@ -36,8 +67,6 @@ const Board = () => {
           </MainBlock>
         </div>
       </MainWrapper>
-
-      {/* Outlet для отображения модальных окон */}
       <Outlet />
     </>
   );

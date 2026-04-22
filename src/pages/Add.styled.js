@@ -179,7 +179,7 @@ export const CreateButton = styled.button`
   color: #ffffff;
   cursor: pointer;
   &:hover {
-    background-color: #33399b;
+    background-color: #565eef;
   }
   @media (max-width: 495px) {
     width: 100%;

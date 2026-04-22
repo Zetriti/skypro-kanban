@@ -11,11 +11,12 @@ const Column = ({ title, cards }) => {
       <CardsContainer>
         {cards.map((card) => (
           <Card
-            key={card.id}
-            id={card.id}
-            text={card.text}
+            key={card._id || card.id}
+            id={card._id || card.id}
+            text={card.topic}
             title={card.title}
             date={card.date}
+            status={card.status}
           />
         ))}
       </CardsContainer>

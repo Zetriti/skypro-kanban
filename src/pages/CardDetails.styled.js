@@ -278,7 +278,7 @@ export const BtnBor = styled.button`
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    background-color: #33399b;
+    background-color: #565eef;
     color: #ffffff;
     a {
       color: #ffffff;
@@ -306,7 +306,7 @@ export const BtnBg = styled.button`
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    background-color: #33399b;
+    background-color: #565eef;
   }
   a {
     color: #ffffff;

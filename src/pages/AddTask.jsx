@@ -9,20 +9,46 @@ const AddTask = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Web Design");
   const [selectedDate, setSelectedDate] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { addTask } = useTasks();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    if (!title.trim()) {
+      setError("Введите название задачи");
+      return false;
+    }
+    if (!selectedDate) {
+      setError("Выберите дату");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newTask = {
-      title,
-      description,
-      text: category,
-      date: selectedDate,
-      status: "Без статуса",
-    };
-    addTask(newTask);
-    navigate("/");
+    if (!validateForm()) return;
+
+    setLoading(true);
+    setError("");
+    try {
+      const [day, month, year] = selectedDate.split(".");
+      const isoDate = `20${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T00:00:00.000Z`;
+
+      await addTask({
+        title,
+        description,
+        topic: category,
+        status: "Без статуса",
+        date: isoDate,
+      });
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const categories = [
@@ -47,7 +73,6 @@ const AddTask = () => {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Введите название задачи..."
                   autoFocus
-                  required
                 />
               </S.FormBlock>
               <S.FormBlock>
@@ -57,7 +82,6 @@ const AddTask = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Введите описание задачи..."
-                  required
                 />
               </S.FormBlock>
             </S.Form>
@@ -81,8 +105,13 @@ const AddTask = () => {
               ))}
             </S.Themes>
           </S.Categories>
+          {error && (
+            <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+          )}
           <S.ButtonWrapper>
-            <S.CreateButton type="submit">Создать задачу</S.CreateButton>
+            <S.CreateButton onClick={handleSubmit} disabled={loading}>
+              {loading ? "Создание..." : "Создать задачу"}
+            </S.CreateButton>
           </S.ButtonWrapper>
         </S.Container>
       </S.ModalContent>
