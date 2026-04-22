@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   PopUserContainer,
   PopUserName,
@@ -17,7 +18,7 @@ const PopUser = ({ isOpen, onClose }) => {
         <input type="checkbox" className="checkbox" name="checkbox" />
       </ThemeRow>
       <LogoutButton type="button" onClick={onClose}>
-        <a href="#popExit">Выйти</a>
+        <Link to="/exit">Выйти</Link>
       </LogoutButton>
     </PopUserContainer>
   );
