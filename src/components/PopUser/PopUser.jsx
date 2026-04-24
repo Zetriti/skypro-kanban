@@ -11,7 +11,7 @@ import {
 const PopUser = ({ isOpen, onClose }) => {
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userName = user.name || "Ivan Ivanov";
-  const userEmail = user || "ivan.ivanov@gmail.com";
+  const userEmail = user.login || "ivan.ivanov@gmail.com";
   return (
     <PopUserContainer $isOpen={isOpen}>
       <PopUserName>{userName}</PopUserName>
