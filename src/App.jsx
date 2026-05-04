@@ -1,31 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { TasksProvider } from "./context/TasksProvider";
 import AppRoutes from "./AppRoutes";
 import { GlobalStyles } from "./GlobalStyles.styled";
+import { ThemeContextProvider } from "./context/ThemeProvider";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const isAuth = !!token;
-
-  const handleLogin = (newToken) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
-
+  const { token } = useContext(AuthContext);
   return (
     <TasksProvider token={token}>
       <GlobalStyles />
       <div className="wrapper">
-        <AppRoutes
-          isAuth={isAuth}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-        />
+        <AppRoutes />
       </div>
     </TasksProvider>
   );

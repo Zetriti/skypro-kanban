@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./Add.styled";
 import Calendar from "../components/Calendar/Calendar";
 import { useTasks } from "../hooks/useTasks";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
@@ -50,22 +52,47 @@ const AddTask = () => {
       setLoading(false);
     }
   };
+  const { theme } = useContext(ThemeContext);
+
+  const getCategoryStyle = (categoryName) => {
+    switch (categoryName) {
+      case "Web Design":
+        return {
+          bg: theme === "light" ? "#FFE4C2" : "#ff6d00",
+          color: theme === "light" ? "#ff6d00" : "#FFE4C2",
+        };
+      case "Research":
+        return {
+          bg: theme === "light" ? "#B4FDD1" : "#06b16e",
+          color: theme === "light" ? "#06b16e" : "#B4FDD1",
+        };
+      case "Copywriting":
+        return {
+          bg: theme === "light" ? "#E9D4FF" : "#9a48f1",
+          color: theme === "light" ? "#9a48f1" : "#E9D4FF",
+        };
+      default:
+        return { bg: "#94a6be", color: "#ffffff" };
+    }
+  };
 
   const categories = [
-    { name: "Web Design", color: "orange" },
-    { name: "Research", color: "green" },
-    { name: "Copywriting", color: "purple" },
+    { name: "Web Design", ...getCategoryStyle("Web Design") },
+    { name: "Research", ...getCategoryStyle("Research") },
+    { name: "Copywriting", ...getCategoryStyle("Copywriting") },
   ];
 
   return (
     <S.Overlay onClick={() => navigate("/")}>
       <S.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Container>
-          <S.Title>Создание задачи</S.Title>
+        <S.Container theme={theme}>
+          <S.Title theme={theme}>Создание задачи</S.Title>
           <S.Wrap>
             <S.Form onSubmit={handleSubmit}>
               <S.FormBlock>
-                <S.Label htmlFor="formTitle">Название задачи</S.Label>
+                <S.Label theme={theme} htmlFor="formTitle">
+                  Название задачи
+                </S.Label>
                 <S.Input
                   type="text"
                   id="formTitle"
@@ -76,7 +103,9 @@ const AddTask = () => {
                 />
               </S.FormBlock>
               <S.FormBlock>
-                <S.Label htmlFor="textArea">Описание задачи</S.Label>
+                <S.Label theme={theme} htmlFor="textArea">
+                  Описание задачи
+                </S.Label>
                 <S.TextArea
                   id="textArea"
                   value={description}
@@ -91,11 +120,12 @@ const AddTask = () => {
             />
           </S.Wrap>
           <S.Categories>
-            <S.CategoriesTitle>Категория</S.CategoriesTitle>
+            <S.CategoriesTitle theme={theme}>Категория</S.CategoriesTitle>
             <S.Themes>
               {categories.map((cat) => (
                 <S.Theme
                   key={cat.name}
+                  $bg={cat.bg}
                   $color={cat.color}
                   $active={category === cat.name}
                   onClick={() => setCategory(cat.name)}

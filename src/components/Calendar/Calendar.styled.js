@@ -12,7 +12,7 @@ export const CalendarContainer = styled.div`
 export const CalendarTitle = styled.p`
   margin-bottom: 14px;
   padding: 0 7px;
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;

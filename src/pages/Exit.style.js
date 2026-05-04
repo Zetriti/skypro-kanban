@@ -14,7 +14,8 @@ export const Overlay = styled.div`
 `;
 
 export const Modal = styled.div`
-  background: white;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
   padding: 40px 30px;
   border-radius: 10px;
   width: 100%;
@@ -27,6 +28,7 @@ export const Title = styled.h2`
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 20px;
+  color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
 `;
 
 export const ButtonGroup = styled.div`
@@ -38,10 +40,20 @@ export const ButtonGroup = styled.div`
 export const Button = styled.button`
   padding: 10px 20px;
   border: none;
+  width: 153px;
+  height: 30px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
   min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
 `;
 
 export const YesButton = styled(Button)`
@@ -54,10 +66,12 @@ export const YesButton = styled(Button)`
 
 export const NoButton = styled(Button)`
   background-color: transparent;
-  border: 0.7px solid #565eef;
-  color: #565eef;
+  border: 0.7px solid
+    ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
+  color: ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
   &:hover {
     background-color: #565eef;
     color: white;
+    border: 0.7px solid #565eef;
   }
 `;

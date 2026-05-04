@@ -11,14 +11,18 @@ import {
   MainContent,
 } from "../components/Main/Main.styled";
 
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+
 const Board = () => {
   const { tasks, loading, error } = useTasks();
+  const { theme } = useContext(ThemeContext);
 
   if (loading) {
     return (
       <>
         <Header />
-        <MainWrapper>
+        <MainWrapper theme={theme}>
           <div className="container">
             <MainBlock>
               <p>Загрузка задач...</p>
@@ -33,7 +37,7 @@ const Board = () => {
     return (
       <>
         <Header />
-        <MainWrapper>
+        <MainWrapper theme={theme}>
           <div className="container">
             <MainBlock>
               <p style={{ color: "red" }}>Ошибка: {error}</p>
@@ -52,7 +56,7 @@ const Board = () => {
   return (
     <>
       <Header />
-      <MainWrapper>
+      <MainWrapper theme={theme}>
         <div className="container">
           <MainBlock>
             <MainContent>

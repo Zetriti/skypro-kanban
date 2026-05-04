@@ -24,7 +24,8 @@ export const Container = styled.div`
   padding: 20px;
   max-width: 630px;
   margin: 40px auto;
-  background: white;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
@@ -33,7 +34,7 @@ export const Title = styled.h2`
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
 `;
 
 export const Form = styled.form`
@@ -49,7 +50,7 @@ export const FormBlock = styled.div`
 `;
 
 export const Label = styled.label`
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -101,7 +102,7 @@ export const Categories = styled.div`
 
 export const CategoriesTitle = styled.p`
   margin-bottom: 14px;
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -122,30 +123,8 @@ export const Theme = styled.div`
   padding: 8px 20px;
   border-radius: 24px;
   opacity: ${({ $active }) => ($active ? 1 : 0.4)};
-  background-color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ffe4c2";
-      case "green":
-        return "#b4fdd1";
-      case "purple":
-        return "#e9d4ff";
-      default:
-        return "#94a6be";
-    }
-  }};
-  color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ff6d00";
-      case "green":
-        return "#06b16e";
-      case "purple":
-        return "#9a48f1";
-      default:
-        return "#ffffff";
-    }
-  }};
+  background-color: ${({ $bg }) => $bg};
+  color: ${({ $color }) => $color};
   cursor: pointer;
   p {
     font-size: 14px;
@@ -167,6 +146,11 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const CreateButton = styled.button`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 10px;
   width: 132px;
   height: 30px;
   background-color: #565eef;

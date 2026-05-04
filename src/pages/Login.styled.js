@@ -5,24 +5,38 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #eaeef6;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#eaeef6" : "#151419"};
 `;
 
 export const Form = styled.form`
-  background: white;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
   padding: 40px 30px;
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
+
+  h2 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.6px;
+    color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
+  }
 `;
 
 export const Input = styled.input`
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid ${({ $error }) => ($error ? "#ff4d4f" : "#d4dbe5")};
+  border: 0.7px solid ${({ $error }) => ($error ? "#ff4d4f" : "#6694A6BE")};
   border-radius: 8px;
-
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "transparent"};
+  color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
   &:focus {
     border-color: #565eef;
   }

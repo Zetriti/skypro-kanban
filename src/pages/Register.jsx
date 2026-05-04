@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./Register.styled";
 import { signUp } from "../services/auth";
+import { ThemeContext } from "../context/ThemeContext";
+import { AuthContext } from "../context/AuthContext";
 
-const Register = ({ onLogin }) => {
+const Register = () => {
+  const { login } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,8 +39,7 @@ const Register = ({ onLogin }) => {
   };
 
   const getValidationMessage = () => {
-    if (!submitted) return ""; // не показываем до первой попытки
-
+    if (!submitted) return "";
     const nameEmpty = !name.trim();
     const emailEmpty = !email.trim();
     const passwordEmpty = !password.trim();
@@ -51,30 +54,9 @@ const Register = ({ onLogin }) => {
     return "";
   };
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-    setErrors((prev) => ({ ...prev, name: false }));
-    setApiError("");
-    setSubmitted(false);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setErrors((prev) => ({ ...prev, email: false }));
-    setApiError("");
-    setSubmitted(false);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setErrors((prev) => ({ ...prev, password: false }));
-    setApiError("");
-    setSubmitted(false);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true); // пользователь нажал кнопку
+    setSubmitted(true);
     setApiError("");
 
     if (!validateForm()) return;
@@ -85,7 +67,7 @@ const Register = ({ onLogin }) => {
       const token = data.user?.token;
       if (token) {
         localStorage.setItem("user", JSON.stringify(data.user));
-        onLogin(token);
+        login(token);
         navigate("/");
       } else {
         setApiError("Неверный ответ сервера");
@@ -98,29 +80,50 @@ const Register = ({ onLogin }) => {
   };
 
   const errorMessage = apiError || getValidationMessage();
+
   return (
-    <S.Container>
-      <S.Form onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: "center", marginBottom: 20 }}>Регистрация</h2>
+    <S.Container theme={theme}>
+      <S.Form theme={theme} onSubmit={handleSubmit}>
+        <h2 theme={theme} style={{ textAlign: "center", marginBottom: 20 }}>
+          Регистрация
+        </h2>
         <S.Input
+          theme={theme}
           type="text"
           placeholder="Имя"
           value={name}
-          onChange={handleNameChange}
+          onChange={(e) => {
+            setName(e.target.value);
+            setErrors((prev) => ({ ...prev, name: false }));
+            setApiError("");
+            setSubmitted(false);
+          }}
           $error={submitted && errors.name}
         />
         <S.Input
+          theme={theme}
           type="email"
           placeholder="Эл. почта"
           value={email}
-          onChange={handleEmailChange}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setErrors((prev) => ({ ...prev, email: false }));
+            setApiError("");
+            setSubmitted(false);
+          }}
           $error={submitted && errors.email}
         />
         <S.Input
+          theme={theme}
           type="password"
           placeholder="Пароль"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setErrors((prev) => ({ ...prev, password: false }));
+            setApiError("");
+            setSubmitted(false);
+          }}
           $error={submitted && errors.password}
         />
 
