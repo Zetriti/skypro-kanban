@@ -8,7 +8,7 @@ import {
   CardGroup,
   CardButton,
   CardContent,
-  CardTitle,
+  CardTitle as StyledCardTitle,
   CardDate,
 } from "./Cards.styled";
 
@@ -37,7 +37,14 @@ const CardTheme = styled.div`
   line-height: 10px;
 `;
 
-const Card = ({ id, text, title, date }) => {
+const CardTitle = styled(StyledCardTitle)`
+  text-decoration: ${({ $completed }) =>
+    $completed ? "line-through" : "none"};
+`;
+
+const Card = ({ id, text, title, date, status }) => {
+  const isCompleted = status === "Готово";
+
   return (
     <CardItem key={id}>
       <CardStyled>
@@ -55,7 +62,7 @@ const Card = ({ id, text, title, date }) => {
         </CardGroup>
         <CardContent>
           <Link to={`/card/${id}`}>
-            <CardTitle>{title}</CardTitle>
+            <CardTitle $completed={isCompleted}>{title}</CardTitle>
           </Link>
           <CardDate>
             <svg

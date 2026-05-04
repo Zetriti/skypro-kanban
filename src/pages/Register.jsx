@@ -1,106 +1,143 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #eaeef6;
-`;
-
-const Form = styled.form`
-  background: white;
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #d4dbe5;
-  border-radius: 8px;
-  font-size: 14px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color: #565eef;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  &:hover {
-    background-color: #33399b;
-  }
-`;
-
-const StyledLink = styled(Link)`
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #565eef;
-  text-decoration: none;
-`;
+import * as S from "./Register.styled";
+import { signUp } from "../services/auth";
 
 const Register = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validateForm = () => {
+    const nameEmpty = !name.trim();
+    const emailEmpty = !email.trim();
+    const passwordEmpty = !password.trim();
+    const emailInvalid = !emailEmpty && !validateEmail(email);
+
+    const newErrors = {
+      name: nameEmpty,
+      email: emailEmpty || emailInvalid,
+      password: passwordEmpty,
+    };
+    setErrors(newErrors);
+    return !newErrors.name && !newErrors.email && !newErrors.password;
+  };
+
+  const getValidationMessage = () => {
+    if (!submitted) return ""; // не показываем до первой попытки
+
+    const nameEmpty = !name.trim();
+    const emailEmpty = !email.trim();
+    const passwordEmpty = !password.trim();
+    const emailInvalid = !emailEmpty && !validateEmail(email);
+
+    if (nameEmpty || emailEmpty || passwordEmpty) {
+      return "Введенные вами данные не корректны. Чтобы завершить регистрацию, заполните все поля в форме.";
+    }
+    if (emailInvalid) {
+      return "Введенные вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку.";
+    }
+    return "";
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    setErrors((prev) => ({ ...prev, name: false }));
+    setApiError("");
+    setSubmitted(false);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setErrors((prev) => ({ ...prev, email: false }));
+    setApiError("");
+    setSubmitted(false);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setErrors((prev) => ({ ...prev, password: false }));
+    setApiError("");
+    setSubmitted(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь регистрация
-    if (name && email && password) {
-      // После успешной регистрации можно сразу авторизовать
-      onLogin();
-      navigate("/");
+    setSubmitted(true); // пользователь нажал кнопку
+    setApiError("");
+
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      const data = await signUp({ name, email, password });
+      const token = data.user?.token;
+      if (token) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        onLogin(token);
+        navigate("/");
+      } else {
+        setApiError("Неверный ответ сервера");
+      }
+    } catch (err) {
+      setApiError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const errorMessage = apiError || getValidationMessage();
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <Title>Регистрация</Title>
-        <Input
+    <S.Container>
+      <S.Form onSubmit={handleSubmit}>
+        <h2 style={{ textAlign: "center", marginBottom: 20 }}>Регистрация</h2>
+        <S.Input
           type="text"
           placeholder="Имя"
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          onChange={handleNameChange}
+          $error={submitted && errors.name}
         />
-        <Input
+        <S.Input
           type="email"
-          placeholder="Email"
+          placeholder="Эл. почта"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          onChange={handleEmailChange}
+          $error={submitted && errors.email}
         />
-        <Input
+        <S.Input
           type="password"
           placeholder="Пароль"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          onChange={handlePasswordChange}
+          $error={submitted && errors.password}
         />
-        <Button type="submit">Зарегистрироваться</Button>
-        <StyledLink to="/login">Уже есть аккаунт? Войти</StyledLink>
-      </Form>
-    </Container>
+
+        {errorMessage && <S.ErrorMessage>{errorMessage}</S.ErrorMessage>}
+
+        <S.Button type="submit" disabled={loading}>
+          {loading ? "Регистрация..." : "Зарегистрироваться"}
+        </S.Button>
+
+        <S.P style={{ textAlign: "center", marginTop: 15 }}>
+          Уже есть аккаунт?{" "}
+          <S.StyledLink onClick={() => navigate("/login")}>
+            Войдите здесь
+          </S.StyledLink>
+        </S.P>
+      </S.Form>
+    </S.Container>
   );
 };
 

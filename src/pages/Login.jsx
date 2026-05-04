@@ -1,97 +1,90 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #eaeef6;
-`;
-
-const Form = styled.form`
-  background: white;
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #d4dbe5;
-  border-radius: 8px;
-  font-size: 14px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color: #565eef;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  &:hover {
-    background-color: #33399b;
-  }
-`;
-
-const StyledLink = styled(Link)`
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #565eef;
-  text-decoration: none;
-`;
+import { signIn } from "../services/auth";
+import * as S from "./Login.styled";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: false, password: false });
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validateForm = () => {
+    const newErrors = {
+      email: !email.trim() || !validateEmail(email),
+      password: !password.trim(),
+    };
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
+  };
+
+  const getValidationMessage = () => {
+    if (errors.email || errors.password) {
+      return "Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа.";
+    }
+    return "";
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь должна быть реальная авторизация
-    if (email && password) {
-      onLogin();
-      navigate("/");
+    setApiError("");
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      const data = await signIn({ email, password });
+      const token = data.user?.token;
+      if (token) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        onLogin(token);
+        navigate("/");
+      } else {
+        setApiError("Неверный ответ сервера");
+      }
+    } catch (err) {
+      setApiError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const errorMessage = apiError || getValidationMessage();
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <Title>Вход</Title>
-        <Input
+    <S.Container>
+      <S.Form onSubmit={handleSubmit}>
+        <h2 style={{ textAlign: "center", marginBottom: 20 }}>Вход</h2>
+        <S.Input
           type="email"
-          placeholder="Email"
+          placeholder="Эл. почта"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
+          $error={errors.email}
         />
-        <Input
+        <S.Input
           type="password"
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
+          $error={errors.password}
         />
-        <Button type="submit">Войти</Button>
-        <StyledLink to="/register">Нет аккаунта? Зарегистрируйтесь</StyledLink>
-      </Form>
-    </Container>
+        {errorMessage && <S.ErrorMessage>{errorMessage}</S.ErrorMessage>}
+        <S.Button type="submit" disabled={loading}>
+          {loading ? "Вход..." : "Войти"}
+        </S.Button>
+
+        <S.P>
+          Нужно зарегистрироваться?{" "}
+          <S.StyledLink onClick={() => navigate("/register")}>
+            Регистрируйтесь здесь
+          </S.StyledLink>
+        </S.P>
+      </S.Form>
+    </S.Container>
   );
 };
 
