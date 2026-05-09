@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import PopUser from "../PopUser/PopUser";
 import {
@@ -9,10 +9,13 @@ import {
   HeaderButton,
   HeaderUser,
 } from "./Header.styled";
+import { ThemeContext } from "../../context/ThemeContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = () => {
+  const { theme } = useContext(ThemeContext);
+  const { user } = useContext(AuthContext);
   const [isPopUserOpen, setIsPopUserOpen] = useState(false);
-  const [theme] = useState("light");
 
   const togglePopUser = (e) => {
     e.preventDefault();
@@ -23,11 +26,10 @@ const Header = () => {
     setIsPopUserOpen(false);
   };
 
-  const user = JSON.parse(localStorage.getItem("user")) || {};
-  const userName = user.name || "Ivan Ivanov";
+  const userName = user?.name || "Ivan Ivanov";
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper theme={theme}>
       <div className="container">
         <HeaderBlock>
           <HeaderLogo theme={theme} className="_show _light">
@@ -44,7 +46,9 @@ const Header = () => {
             <HeaderButton id="btnMainNew">
               <Link to="/add">Создать новую задачу</Link>
             </HeaderButton>
-            <HeaderUser onClick={togglePopUser}>{userName}</HeaderUser>
+            <HeaderUser theme={theme} onClick={togglePopUser}>
+              {userName}
+            </HeaderUser>
             <PopUser isOpen={isPopUserOpen} onClose={closePopUser} />
           </HeaderNav>
         </HeaderBlock>

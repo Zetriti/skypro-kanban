@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import * as S from "./Calendar.styled";
+import { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Calendar = ({ selectedDate, onDateChange }) => {
   const isEditable = typeof onDateChange === "function";
@@ -86,9 +88,10 @@ const Calendar = ({ selectedDate, onDateChange }) => {
     ? parseInt(selectedDate.split(".")[0])
     : null;
 
+  const { theme } = useContext(ThemeContext);
   return (
     <S.CalendarContainer>
-      <S.CalendarTitle>Даты</S.CalendarTitle>
+      <S.CalendarTitle theme={theme}>Даты</S.CalendarTitle>
       <S.CalendarBlock>
         <S.CalendarNav>
           <S.CalendarMonth>

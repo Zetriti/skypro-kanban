@@ -1,5 +1,5 @@
 // src/components/Card/Card.jsx
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -11,15 +11,25 @@ import {
   CardTitle as StyledCardTitle,
   CardDate,
 } from "./Cards.styled";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const getThemeColors = (topic) => {
+const getThemeColors = (topic, theme) => {
   switch (topic) {
     case "Web Design":
-      return { bg: "#ffe4c2", color: "#ff6d00" };
+      return {
+        bg: theme === "light" ? "#FFE4C2" : "#ff6d00",
+        color: theme === "light" ? "#ff6d00" : "#FFE4C2",
+      };
     case "Research":
-      return { bg: "#b4fdd1", color: "#06b16e" };
+      return {
+        bg: theme === "light" ? "#B4FDD1" : "#06b16e",
+        color: theme === "light" ? "#06b16e" : "#B4FDD1",
+      };
     case "Copywriting":
-      return { bg: "#e9d4ff", color: "#9a48f1" };
+      return {
+        bg: theme === "light" ? "#E9D4FF" : "#9a48f1",
+        color: theme === "light" ? "#9a48f1" : "#E9D4FF",
+      };
     default:
       return { bg: "#94a6be", color: "#ffffff" };
   }
@@ -30,8 +40,9 @@ const CardTheme = styled.div`
   height: 20px;
   padding: 5px 14px;
   border-radius: 18px;
-  background-color: ${({ $topic }) => getThemeColors($topic).bg};
-  color: ${({ $topic }) => getThemeColors($topic).color};
+  background-color: ${({ $topic, $theme }) =>
+    getThemeColors($topic, $theme).bg};
+  color: ${({ $topic, $theme }) => getThemeColors($topic, $theme).color};
   font-size: 10px;
   font-weight: 600;
   line-height: 10px;
@@ -43,13 +54,14 @@ const CardTitle = styled(StyledCardTitle)`
 `;
 
 const Card = ({ id, text, title, date, status }) => {
+  const { theme } = useContext(ThemeContext);
   const isCompleted = status === "Готово";
 
   return (
     <CardItem key={id}>
-      <CardStyled>
+      <CardStyled theme={theme}>
         <CardGroup>
-          <CardTheme $topic={text}>
+          <CardTheme $theme={theme} $topic={text}>
             <p>{text}</p>
           </CardTheme>
           <Link to={`/card/${id}`}>
@@ -62,7 +74,9 @@ const Card = ({ id, text, title, date, status }) => {
         </CardGroup>
         <CardContent>
           <Link to={`/card/${id}`}>
-            <CardTitle $completed={isCompleted}>{title}</CardTitle>
+            <CardTitle theme={theme} $completed={isCompleted}>
+              {title}
+            </CardTitle>
           </Link>
           <CardDate>
             <svg

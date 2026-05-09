@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { signIn } from "../services/auth";
 import * as S from "./Login.styled";
+import { ThemeContext } from "../context/ThemeContext";
+import { AuthContext } from "../context/AuthContext";
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { login } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: false, password: false });
@@ -40,7 +44,7 @@ const Login = ({ onLogin }) => {
       const token = data.user?.token;
       if (token) {
         localStorage.setItem("user", JSON.stringify(data.user));
-        onLogin(token);
+        login(token);
         navigate("/");
       } else {
         setApiError("Неверный ответ сервера");
@@ -55,10 +59,13 @@ const Login = ({ onLogin }) => {
   const errorMessage = apiError || getValidationMessage();
 
   return (
-    <S.Container>
-      <S.Form onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: "center", marginBottom: 20 }}>Вход</h2>
+    <S.Container theme={theme}>
+      <S.Form theme={theme} onSubmit={handleSubmit}>
+        <h2 theme={theme} style={{ textAlign: "center", marginBottom: 20 }}>
+          Вход
+        </h2>
         <S.Input
+          theme={theme}
           type="email"
           placeholder="Эл. почта"
           value={email}
@@ -66,6 +73,7 @@ const Login = ({ onLogin }) => {
           $error={errors.email}
         />
         <S.Input
+          theme={theme}
           type="password"
           placeholder="Пароль"
           value={password}

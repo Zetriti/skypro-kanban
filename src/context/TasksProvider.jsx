@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TasksContext } from "./TasksContext";
 import {
   getTasks,
@@ -7,8 +7,10 @@ import {
   deleteTask as apiDeleteTask,
 } from "../services/tasks";
 import { formatDateToDisplay } from "../services/api";
+import { AuthContext } from "./AuthContext";
 
-export const TasksProvider = ({ children, token }) => {
+export const TasksProvider = ({ children }) => {
+  const { token } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

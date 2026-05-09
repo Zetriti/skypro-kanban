@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { hover03 } from "../../shared.styled";
 
 export const PopUserContainer = styled.div`
   position: absolute;
@@ -9,8 +8,11 @@ export const PopUserContainer = styled.div`
   height: 205px;
   border-radius: 10px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  background: #fff;
-  box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
+  box-shadow: 0px 10px 39px 0px
+    ${({ theme }) =>
+      theme === "light" ? "rgba(26, 56, 101, 0.21)" : "rgba(148,166,190,0.4)"};
   padding: 34px;
   text-align: center;
   z-index: 2;
@@ -18,7 +20,7 @@ export const PopUserContainer = styled.div`
 `;
 
 export const PopUserName = styled.p`
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 500;
   line-height: 21px;
@@ -41,7 +43,7 @@ export const ThemeRow = styled.div`
   margin-bottom: 30px;
 
   p {
-    color: #000;
+    color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.14px;
@@ -79,15 +81,35 @@ export const LogoutButton = styled.button`
   width: 72px;
   height: 30px;
   background: transparent;
-  color: #565eef;
+  color: ${({ theme }) => (theme === "light" ? "#FFFFFF" : "#FFFFFF")};
   border-radius: 4px;
-  border: 1px solid #565eef;
+  border: 1px solid
+    ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
   cursor: pointer;
 
   a {
-    color: #565eef;
-    text-decoration: none;
+    color: ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
+    width: 72px;
+    height: 30px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 10px;
+    white-space: nowrap;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      color: ${({ theme }) => (theme === "light" ? "#FFFFFF" : "#FFFFFF")};
+    }
   }
 
-  ${hover03}
+  &:hover {
+    background-color: #565eef;
+    color: ${({ theme }) => (theme === "light" ? "#FFFFFF" : "#FFFFFF")};
+    border: 0.7px solid #565eef;
+  }
 `;

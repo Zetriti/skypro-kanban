@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { hover01, hover02 } from "../../shared.styled";
+import { hover03, hover02 } from "../../shared.styled";
 
 export const HeaderWrapper = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
 `;
 
 export const HeaderBlock = styled.div`
@@ -42,6 +43,11 @@ export const HeaderNav = styled.nav`
 `;
 
 export const HeaderButton = styled.button`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 10px;
   width: 178px;
   height: 30px;
   border-radius: 4px;
@@ -57,7 +63,7 @@ export const HeaderButton = styled.button`
     color: #ffffff;
   }
 
-  ${hover01}
+  ${hover03}
 
   @media screen and (max-width: 495px) {
     z-index: 3;
@@ -74,13 +80,18 @@ export const HeaderButton = styled.button`
 
 export const HeaderUser = styled.a`
   height: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 10px;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565eef;
+  color: ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
   text-decoration: none;
   cursor: pointer;
 

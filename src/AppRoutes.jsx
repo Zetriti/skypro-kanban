@@ -9,23 +9,23 @@ import AddTask from "./pages/AddTask";
 import Exit from "./pages/Exit";
 import NotFound from "./pages/NotFound";
 
-const AppRoutes = ({ isAuth, onLogin, onLogout }) => {
+const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login onLogin={onLogin} />} />
-      <Route path="/register" element={<Register onLogin={onLogin} />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route
         path="/"
         element={
-          <ProtectedRoute isAuth={isAuth}>
+          <ProtectedRoute>
             <Board />
           </ProtectedRoute>
         }
       >
         <Route path="add" element={<AddTask />} />
         <Route path="card/:id" element={<CardDetails />} />
-        <Route path="exit" element={<Exit onLogout={onLogout} />} />
+        <Route path="exit" element={<Exit />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

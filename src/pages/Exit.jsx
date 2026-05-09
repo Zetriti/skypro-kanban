@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Exit.style";
+import { AuthContext } from "../context/AuthContext";
+import { ThemeContext } from "../context/ThemeContext";
 
-const Exit = ({ onLogout }) => {
+const Exit = () => {
+  const { logout } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const handleYes = () => {
-    onLogout();
+    logout();
     navigate("/login");
   };
 
@@ -15,9 +19,9 @@ const Exit = ({ onLogout }) => {
   };
 
   return (
-    <S.Overlay onClick={handleNo}>
-      <S.Modal onClick={(e) => e.stopPropagation()}>
-        <S.Title>Выйти из аккаунта?</S.Title>
+    <S.Overlay theme={theme} onClick={handleNo}>
+      <S.Modal theme={theme} onClick={(e) => e.stopPropagation()}>
+        <S.Title theme={theme}>Выйти из аккаунта?</S.Title>
         <S.ButtonGroup>
           <S.YesButton onClick={handleYes}>Да, выйти</S.YesButton>
           <S.NoButton onClick={handleNo}>Нет, остаться</S.NoButton>

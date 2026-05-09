@@ -4,7 +4,8 @@ export const MainWrapper = styled.main`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: #eaeef6;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#EAEEF6" : "#151419"};
 `;
 
 export const MainBlock = styled.div`

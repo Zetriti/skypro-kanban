@@ -28,12 +28,14 @@ export const PopBrowseContainer = styled.div`
 export const PopBrowseBlock = styled.div`
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) =>
+    theme === "light" ? "#FFFFFF" : "#20202C"};
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 38px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid
+    ${({ theme }) => (theme === "light" ? " #d4dbe5" : "#4E5566")};
   position: relative;
   cursor: default;
 `;
@@ -51,7 +53,7 @@ export const PopBrowseTopBlock = styled.div`
 `;
 
 export const PopBrowseTtl = styled.h3`
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
@@ -63,30 +65,8 @@ export const ThemeTop = styled.div`
   height: 30px;
   padding: 8px 20px;
   border-radius: 24px;
-  background-color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ffe4c2";
-      case "green":
-        return "#b4fdd1";
-      case "purple":
-        return "#e9d4ff";
-      default:
-        return "#94a6be";
-    }
-  }};
-  color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ff6d00";
-      case "green":
-        return "#06b16e";
-      case "purple":
-        return "#9a48f1";
-      default:
-        return "#ffffff";
-    }
-  }};
+  background-color: ${({ $bg }) => $bg};
+  color: ${({ $color }) => $color};
   p {
     font-size: 14px;
     font-weight: 600;
@@ -101,7 +81,7 @@ export const StatusSection = styled.div`
 
 export const StatusP = styled.p`
   margin-bottom: 14px;
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -122,17 +102,26 @@ export const StatusTheme = styled.div`
   margin-right: 7px;
   margin-bottom: 7px;
   cursor: ${({ $isEditable }) => ($isEditable ? "pointer" : "default")};
-  background-color: ${({ $active, $isEditable }) =>
-    $active ? ($isEditable ? "#9a48f1" : "#94a6be") : "transparent"};
-  color: ${({ $active }) => ($active ? "#ffffff" : "#94a6be")};
-  &:hover {
-    background-color: ${({ $isEditable }) => $isEditable && "#9a48f1"};
-    color: ${({ $isEditable }) => $isEditable && "#ffffff"};
-  }
+  background-color: ${({ $active }) => ($active ? "#94a6be" : "transparent")};
+  color: ${({ theme }) =>
+    theme === "light"
+      ? ({ $active }) => ($active ? "#FFFFFF" : "#94a6be")
+      : ({ $active }) => ($active ? "#151419" : "#94a6be")};
+
   p {
     font-size: 14px;
     line-height: 1;
     letter-spacing: -0.14px;
+    color: ${({ theme }) =>
+      theme === "light"
+        ? ({ $active }) => ($active ? "#FFFFFF" : "#94a6be")
+        : ({ $active }) => ($active ? "#151419" : "#94a6be")};
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 10px;
+    white-space: nowrap;
   }
 `;
 
@@ -158,7 +147,7 @@ export const FormBrowseBlock = styled.div`
 `;
 
 export const Subttl = styled.label`
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -169,7 +158,11 @@ export const FormBrowseArea = styled.textarea`
   width: 100%;
   outline: none;
   padding: 14px;
-  background: ${({ $isEditable }) => ($isEditable ? "#ffffff" : "#eaeef6")};
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
+  background: ${({ theme }) =>
+    theme === "light"
+      ? ({ $isEditable }) => ($isEditable ? "#ffffff" : "#eaeef6")
+      : ({ $isEditable }) => ($isEditable ? "#20202C" : "#151419")};
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;
   font-size: 14px;
@@ -179,7 +172,7 @@ export const FormBrowseArea = styled.textarea`
   height: 200px;
   resize: vertical;
   &[readonly] {
-    background: #eaeef6;
+    ${({ theme }) => (theme === "light" ? "#eaeef6" : "#151419")};
   }
   &::placeholder {
     font-weight: 400;
@@ -212,30 +205,8 @@ export const CategoriesTheme = styled.div`
   height: 30px;
   padding: 8px 20px;
   border-radius: 24px;
-  background-color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ffe4c2";
-      case "green":
-        return "#b4fdd1";
-      case "purple":
-        return "#e9d4ff";
-      default:
-        return "#94a6be";
-    }
-  }};
-  color: ${({ $color }) => {
-    switch ($color) {
-      case "orange":
-        return "#ff6d00";
-      case "green":
-        return "#06b16e";
-      case "purple":
-        return "#9a48f1";
-      default:
-        return "#ffffff";
-    }
-  }};
+  background-color: ${({ $bg }) => $bg};
+  color: ${({ $color }) => $color};
   p {
     font-size: 14px;
     font-weight: 600;
@@ -270,16 +241,18 @@ export const BtnBor = styled.button`
   height: 30px;
   padding: 0 14px;
   border-radius: 4px;
-  border: 0.7px solid #565eef;
+  border: 0.7px solid
+    ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
   outline: none;
   background: transparent;
-  color: #565eef;
+  color: ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   &:hover {
     background-color: #565eef;
     color: #ffffff;
+    border: 0.7px solid #565eef;
     a {
       color: #ffffff;
     }

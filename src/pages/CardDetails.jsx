@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as S from "./CardDetails.styled";
 import Calendar from "../components/Calendar/Calendar";
 import { useTasks } from "../hooks/useTasks";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const statuses = [
   "Без статуса",
@@ -12,6 +14,28 @@ const statuses = [
   "Готово",
 ];
 
+const getCategoryStyle = (categoryName, theme) => {
+  switch (categoryName) {
+    case "Web Design":
+      return {
+        bg: theme === "light" ? "#FFE4C2" : "#ff6d00",
+        color: theme === "light" ? "#ff6d00" : "#FFE4C2",
+      };
+    case "Research":
+      return {
+        bg: theme === "light" ? "#B4FDD1" : "#06b16e",
+        color: theme === "light" ? "#06b16e" : "#B4FDD1",
+      };
+    case "Copywriting":
+      return {
+        bg: theme === "light" ? "#E9D4FF" : "#9a48f1",
+        color: theme === "light" ? "#9a48f1" : "#E9D4FF",
+      };
+    default:
+      return { bg: "#94a6be", color: "#ffffff" };
+  }
+};
+
 const CardDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,6 +44,7 @@ const CardDetails = () => {
   const [editedTask, setEditedTask] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { theme } = useContext(ThemeContext);
 
   const task = tasks.find((t) => t._id === id || t.id === parseInt(id));
 
@@ -32,6 +57,12 @@ const CardDetails = () => {
   if (!task) {
     return null;
   }
+
+  if (!task) return null;
+  const { bg: categoryBg, color: categoryColor } = getCategoryStyle(
+    task.topic,
+    theme,
+  );
 
   const handleEdit = () => setIsEditing(true);
 
@@ -89,13 +120,6 @@ const CardDetails = () => {
     setEditedTask({ ...editedTask, description: e.target.value });
   };
 
-  const getCategoryColor = (text) => {
-    if (text === "Web Design") return "orange";
-    if (text === "Research") return "green";
-    if (text === "Copywriting") return "purple";
-    return "gray";
-  };
-
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       navigate("/");
@@ -105,31 +129,34 @@ const CardDetails = () => {
   return (
     <S.PopBrowse>
       <S.PopBrowseContainer onClick={handleOverlayClick}>
-        <S.PopBrowseBlock>
+        <S.PopBrowseBlock theme={theme}>
           <S.PopBrowseContent>
             <S.PopBrowseTopBlock>
-              <S.PopBrowseTtl>{editedTask?.title || task.title}</S.PopBrowseTtl>
-              <S.ThemeTop $color={getCategoryColor(task.topic)}>
+              <S.PopBrowseTtl theme={theme}>
+                {editedTask?.title || task.title}
+              </S.PopBrowseTtl>
+              <S.ThemeTop $bg={categoryBg} $color={categoryColor}>
                 <p>{task.topic}</p>
               </S.ThemeTop>
             </S.PopBrowseTopBlock>
 
             <S.StatusSection>
-              <S.StatusP>Статус</S.StatusP>
+              <S.StatusP theme={theme}>Статус</S.StatusP>
               <S.StatusThemes>
                 {!isEditing ? (
-                  <S.StatusTheme $active $isEditable={false}>
+                  <S.StatusTheme theme={theme} $active $isEditable={false}>
                     <p>{task.status}</p>
                   </S.StatusTheme>
                 ) : (
                   statuses.map((status) => (
                     <S.StatusTheme
+                      theme={theme}
                       key={status}
                       $active={status === (editedTask?.status || task.status)}
                       $isEditable={true}
                       onClick={() => handleStatusChange(status)}
                     >
-                      <p>{status}</p>
+                      <p theme={theme}>{status}</p>
                     </S.StatusTheme>
                   ))
                 )}
@@ -139,8 +166,11 @@ const CardDetails = () => {
             <S.PopBrowseWrap>
               <S.FormBrowse>
                 <S.FormBrowseBlock>
-                  <S.Subttl htmlFor="description">Описание задачи</S.Subttl>
+                  <S.Subttl theme={theme} htmlFor="description">
+                    Описание задачи
+                  </S.Subttl>
                   <S.FormBrowseArea
+                    theme={theme}
                     id="description"
                     value={editedTask?.description || task.description || ""}
                     onChange={handleDescriptionChange}
@@ -163,7 +193,7 @@ const CardDetails = () => {
 
             <S.ThemeDownCategories>
               <S.CategoriesP>Категория</S.CategoriesP>
-              <S.CategoriesTheme $color={getCategoryColor(task.topic)}>
+              <S.CategoriesTheme $bg={categoryBg} $color={categoryColor}>
                 <p>{task.topic}</p>
               </S.CategoriesTheme>
             </S.ThemeDownCategories>
@@ -175,14 +205,26 @@ const CardDetails = () => {
             {!isEditing ? (
               <S.PopBrowseBtnBrowse>
                 <S.BtnGroup>
-                  <S.BtnBor onClick={handleEdit} disabled={loading}>
+                  <S.BtnBor
+                    theme={theme}
+                    onClick={handleEdit}
+                    disabled={loading}
+                  >
                     Редактировать задачу
                   </S.BtnBor>
-                  <S.BtnBor onClick={handleDelete} disabled={loading}>
+                  <S.BtnBor
+                    theme={theme}
+                    onClick={handleDelete}
+                    disabled={loading}
+                  >
                     Удалить задачу
                   </S.BtnBor>
                 </S.BtnGroup>
-                <S.BtnBg onClick={() => navigate("/")} disabled={loading}>
+                <S.BtnBg
+                  theme={theme}
+                  onClick={() => navigate("/")}
+                  disabled={loading}
+                >
                   Закрыть
                 </S.BtnBg>
               </S.PopBrowseBtnBrowse>
