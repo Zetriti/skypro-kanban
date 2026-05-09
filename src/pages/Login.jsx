@@ -47,10 +47,15 @@ const Login = () => {
         login(token);
         navigate("/");
       } else {
-        setApiError("Неверный ответ сервера");
+        setApiError(
+          "Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа.",
+        );
       }
-    } catch (err) {
-      setApiError(err.message);
+      // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      setApiError(
+        "Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа.",
+      );
     } finally {
       setLoading(false);
     }

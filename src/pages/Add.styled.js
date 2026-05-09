@@ -11,6 +11,11 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+
+  @media screen and (max-width: 660px) {
+    top: 70px;
+    align-items: flex-start;
+  }
 `;
 
 export const ModalContent = styled.div`
@@ -18,6 +23,15 @@ export const ModalContent = styled.div`
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
+
+  @media screen and (max-width: 660px) {
+    max-width: 100%;
+    width: 100%;
+    max-height: calc(100vh - 70px);
+    height: calc(100vh - 70px);
+    border-radius: 0;
+    margin: 0;
+  }
 `;
 
 export const Container = styled.div`
@@ -28,6 +42,11 @@ export const Container = styled.div`
     theme === "light" ? "#FFFFFF" : "#20202C"};
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 660px) {
+    border-radius: 0;
+    margin: 0;
+    border-top: 0.7px solid rgba(148, 166, 190, 0.4);
+  }
 `;
 
 export const Title = styled.h2`
@@ -68,6 +87,7 @@ export const Input = styled.input`
   line-height: 1;
   letter-spacing: -0.14px;
   margin: 10px 0 20px;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
 `;
 
 export const TextArea = styled.textarea`
@@ -81,8 +101,13 @@ export const TextArea = styled.textarea`
   line-height: 1;
   letter-spacing: -0.14px;
   margin-top: 14px;
-  height: 200px;
+  min-height: 200px;
   resize: vertical;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
+
+  @media screen and (max-width: 495px) {
+    min-height: 37px;
+  }
 `;
 
 export const Wrap = styled.div`

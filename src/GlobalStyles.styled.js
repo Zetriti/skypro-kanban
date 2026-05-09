@@ -40,4 +40,25 @@ export const GlobalStyles = createGlobalStyle`
       padding: 0 16px;
     }
   }
+  .react-loading-skeleton {
+    --base-color: transparent;              
+    --highlight-color: transparent;
+    background-image: linear-gradient(
+      90deg,
+      #c1cddc 0%,
+      #e9eef7 45.83%,
+      #c1cddc 97.4%
+    ) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite !important;
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
 `;

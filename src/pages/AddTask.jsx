@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Add.styled";
 import Calendar from "../components/Calendar/Calendar";
@@ -15,6 +15,13 @@ const AddTask = () => {
   const [loading, setLoading] = useState(false);
   const { addTask } = useTasks();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   const validateForm = () => {
     if (!title.trim()) {
@@ -94,6 +101,7 @@ const AddTask = () => {
                   Название задачи
                 </S.Label>
                 <S.Input
+                  theme={theme}
                   type="text"
                   id="formTitle"
                   value={title}
@@ -107,6 +115,7 @@ const AddTask = () => {
                   Описание задачи
                 </S.Label>
                 <S.TextArea
+                  theme={theme}
                   id="textArea"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}

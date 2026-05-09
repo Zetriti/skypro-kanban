@@ -7,6 +7,10 @@ export const Container = styled.div`
   height: 100vh;
   background-color: ${({ theme }) =>
     theme === "light" ? "#eaeef6" : "#151419"};
+  @media screen and (max-width: 1200px) {
+    background-color: ${({ theme }) =>
+      theme === "light" ? "#FFFFFF" : "#20202C"};
+  }
 `;
 
 export const Form = styled.form`

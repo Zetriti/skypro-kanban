@@ -22,6 +22,18 @@ export const Modal = styled.div`
   max-width: 370px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  @media screen and (max-width: 1200px) {
+    position: relative;
+    width: 343px;
+    height: 240px;
+    padding: 50px 20px;
+    border-radius: 10px;
+    background-color: ${({ theme }) =>
+      theme === "light" ? "#FFFFFF" : "#20202C"};
+    border: 0.7px solid #4e5566;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  }
 `;
 
 export const Title = styled.h2`
@@ -35,6 +47,10 @@ export const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
   justify-content: center;
+  @media screen and (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const Button = styled.button`
@@ -54,6 +70,20 @@ export const Button = styled.button`
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
+
+  @media screen and (max-width: 1200px) {
+    width: 304px;
+    height: 40px;
+    border-radius: 4px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+    white-space: nowrap;
+    text-align: center;
+  }
 `;
 
 export const YesButton = styled(Button)`

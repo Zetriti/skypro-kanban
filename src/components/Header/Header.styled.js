@@ -6,6 +6,9 @@ export const HeaderWrapper = styled.header`
   margin: 0 auto;
   background-color: ${({ theme }) =>
     theme === "light" ? "#FFFFFF" : "#20202C"};
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 
 export const HeaderBlock = styled.div`
