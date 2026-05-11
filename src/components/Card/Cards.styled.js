@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
 export const CardItem = styled.div`
-  padding: 5px;
+  margin-bottom: 10px;
   animation-name: card-animation;
   animation-duration: 500ms;
   animation-timing-function: linear;
+  @media screen and (max-width: 1200px) {
+    margin-right: 10px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
 `;
 
 export const Card = styled.div`
@@ -18,6 +23,9 @@ export const Card = styled.div`
   align-items: flex-start;
   justify-content: stretch;
   padding: 15px 13px 19px;
+  box-shadow: ${({ $isDragging }) =>
+    $isDragging ? "0px 10px 39px rgba(148,166,190,0.4)" : "none"};
+  transition: box-shadow 0.2s;
 `;
 
 export const CardGroup = styled.div`
@@ -27,19 +35,6 @@ export const CardGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
-
-export const CardTheme = styled.div`
-  width: auto;
-  height: 20px;
-  padding: 5px 14px;
-  border-radius: 18px;
-
-  p {
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 10px;
-  }
 `;
 
 export const CardButton = styled.div`

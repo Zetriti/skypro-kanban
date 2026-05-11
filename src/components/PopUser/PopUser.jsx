@@ -23,9 +23,15 @@ const PopUser = ({ isOpen, onClose }) => {
     <PopUserContainer theme={theme} $isOpen={isOpen}>
       <PopUserName theme={theme}>{userName}</PopUserName>
       <PopUserMail>{userEmail}</PopUserMail>
-      <ThemeRow theme={theme} onClick={onToggleTheme}>
+      <ThemeRow theme={theme}>
         <p theme={theme}>Темная тема</p>
-        <input type="checkbox" className="checkbox" name="checkbox" />
+        <input
+          type="checkbox"
+          className="checkbox"
+          name="checkbox"
+          checked={theme === "dark"}
+          onChange={onToggleTheme}
+        />
       </ThemeRow>
       <LogoutButton theme={theme} type="button" onClick={onClose}>
         <Link theme={theme} to="/exit">

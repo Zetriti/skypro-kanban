@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PopUser from "../PopUser/PopUser";
 import {
   HeaderWrapper,
@@ -16,6 +16,11 @@ const Header = () => {
   const { theme } = useContext(ThemeContext);
   const { user } = useContext(AuthContext);
   const [isPopUserOpen, setIsPopUserOpen] = useState(false);
+  const location = useLocation();
+
+  const hideCreateButton =
+    location.pathname.startsWith("/add") ||
+    location.pathname.startsWith("/card");
 
   const togglePopUser = (e) => {
     e.preventDefault();
@@ -43,9 +48,11 @@ const Header = () => {
             </Link>
           </HeaderLogo>
           <HeaderNav>
-            <HeaderButton id="btnMainNew">
-              <Link to="/add">Создать новую задачу</Link>
-            </HeaderButton>
+            {!hideCreateButton && (
+              <HeaderButton id="btnMainNew">
+                <Link to="/add">Создать новую задачу</Link>
+              </HeaderButton>
+            )}
             <HeaderUser theme={theme} onClick={togglePopUser}>
               {userName}
             </HeaderUser>

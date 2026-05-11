@@ -23,8 +23,12 @@ const Exit = () => {
       <S.Modal theme={theme} onClick={(e) => e.stopPropagation()}>
         <S.Title theme={theme}>Выйти из аккаунта?</S.Title>
         <S.ButtonGroup>
-          <S.YesButton onClick={handleYes}>Да, выйти</S.YesButton>
-          <S.NoButton onClick={handleNo}>Нет, остаться</S.NoButton>
+          <S.YesButton theme={theme} onClick={handleYes}>
+            Да, выйти
+          </S.YesButton>
+          <S.NoButton theme={theme} onClick={handleNo}>
+            Нет, остаться
+          </S.NoButton>
         </S.ButtonGroup>
       </S.Modal>
     </S.Overlay>

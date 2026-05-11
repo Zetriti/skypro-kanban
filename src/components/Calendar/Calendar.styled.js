@@ -108,10 +108,6 @@ export const Cell = styled.div`
   &.other-month {
     opacity: 0;
   }
-  &.cell-day:hover {
-    color: #94a6be;
-    background-color: #eaeef6;
-  }
   &.active-day {
     background-color: #94a6be;
     color: #ffffff;

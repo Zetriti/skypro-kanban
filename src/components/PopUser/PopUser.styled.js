@@ -112,4 +112,33 @@ export const LogoutButton = styled.button`
     color: ${({ theme }) => (theme === "light" ? "#FFFFFF" : "#FFFFFF")};
     border: 0.7px solid #565eef;
   }
+  @media screen and (max-width: 1200px) {
+    position: relative;
+    width: 142px;
+    height: 40px;
+    border-radius: 4px;
+    border: 1px solid
+      ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
+    cursor: pointer;
+
+    a {
+      width: 142px;
+      height: 40px;
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 10px;
+      white-space: nowrap;
+      text-align: center;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      color: ${({ theme }) => (theme === "light" ? "#565eef" : "#FFFFFF")};
+      &:hover {
+        color: ${({ theme }) => (theme === "light" ? "#FFFFFF" : "#FFFFFF")};
+      }
+    }
+  }
 `;

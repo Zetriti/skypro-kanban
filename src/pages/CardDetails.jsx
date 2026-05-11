@@ -49,6 +49,13 @@ const CardDetails = () => {
   const task = tasks.find((t) => t._id === id || t.id === parseInt(id));
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
     if (task) {
       setEditedTask({ ...task });
     }
@@ -192,7 +199,7 @@ const CardDetails = () => {
             </S.PopBrowseWrap>
 
             <S.ThemeDownCategories>
-              <S.CategoriesP>Категория</S.CategoriesP>
+              <S.CategoriesP theme={theme}>Категория</S.CategoriesP>
               <S.CategoriesTheme $bg={categoryBg} $color={categoryColor}>
                 <p>{task.topic}</p>
               </S.CategoriesTheme>

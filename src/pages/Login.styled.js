@@ -7,6 +7,10 @@ export const Container = styled.div`
   height: 100vh;
   background-color: ${({ theme }) =>
     theme === "light" ? "#eaeef6" : "#151419"};
+  @media screen and (max-width: 1200px) {
+    background-color: ${({ theme }) =>
+      theme === "light" ? "#FFFFFF" : "#20202C"};
+  }
 `;
 
 export const Form = styled.form`
@@ -39,6 +43,9 @@ export const Input = styled.input`
   color: ${({ theme }) => (theme === "light" ? "#000000" : "#FFFFFF")};
   &:focus {
     border-color: #565eef;
+  }
+  @media screen and (max-width: 1200px) {
+    margin-bottom: 7px;
   }
 `;
 
@@ -91,7 +98,14 @@ export const StyledLink = styled.a`
 `;
 
 export const ErrorMessage = styled.p`
-  color: red;
   margin-top: 10px;
+  width: 100%;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  white-space: wrap;
   text-align: center;
+  color: #f84d4d;
 `;

@@ -3,55 +3,13 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Column from "../components/Column/Column";
-import { useTasks } from "../hooks/useTasks";
-import { columnTitles } from "../data";
-import {
-  MainWrapper,
-  MainBlock,
-  MainContent,
-} from "../components/Main/Main.styled";
-
+import { MainWrapper, MainBlock, MainContent } from "./Board.styled";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import DnD from "../components/DnD";
 
 const Board = () => {
-  const { tasks, loading, error } = useTasks();
   const { theme } = useContext(ThemeContext);
-
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <MainWrapper theme={theme}>
-          <div className="container">
-            <MainBlock>
-              <p>Загрузка задач...</p>
-            </MainBlock>
-          </div>
-        </MainWrapper>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Header />
-        <MainWrapper theme={theme}>
-          <div className="container">
-            <MainBlock>
-              <p style={{ color: "red" }}>Ошибка: {error}</p>
-            </MainBlock>
-          </div>
-        </MainWrapper>
-      </>
-    );
-  }
-
-  const groupedCards = columnTitles.map((title) => ({
-    title,
-    cards: tasks.filter((card) => card.status === title),
-  }));
 
   return (
     <>
@@ -59,15 +17,7 @@ const Board = () => {
       <MainWrapper theme={theme}>
         <div className="container">
           <MainBlock>
-            <MainContent>
-              {groupedCards.map((column) => (
-                <Column
-                  key={column.title}
-                  title={column.title}
-                  cards={column.cards}
-                />
-              ))}
-            </MainContent>
+            <DnD />
           </MainBlock>
         </div>
       </MainWrapper>

@@ -10,6 +10,10 @@ export const PopBrowse = styled.div`
   top: 0;
   left: 0;
   z-index: 7;
+
+  @media screen and (max-width: 660px) {
+    top: 70px;
+  }
 `;
 
 export const PopBrowseContainer = styled.div`
@@ -23,6 +27,15 @@ export const PopBrowseContainer = styled.div`
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
   cursor: pointer;
+
+  @media screen and (max-width: 660px) {
+    min-height: calc(100vh - 70px);
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+    flex-direction: row;
+    border-top: 0.7px solid rgba(148, 166, 190, 0.4);
+  }
 `;
 
 export const PopBrowseBlock = styled.div`
@@ -38,6 +51,17 @@ export const PopBrowseBlock = styled.div`
     ${({ theme }) => (theme === "light" ? " #d4dbe5" : "#4E5566")};
   position: relative;
   cursor: default;
+
+  @media screen and (max-width: 660px) {
+    max-width: 100%;
+    width: 100%;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    border-radius: 0;
+    margin: 0;
+    border: none;
+    padding: 20px 16px 32px;
+  }
 `;
 
 export const PopBrowseContent = styled.div`
@@ -181,6 +205,9 @@ export const FormBrowseArea = styled.textarea`
     color: #94a6be;
     letter-spacing: -0.14px;
   }
+  @media screen and (max-width: 660px) {
+    height: 37px;
+  }
 `;
 
 export const ThemeDownCategories = styled.div`
@@ -193,7 +220,7 @@ export const ThemeDownCategories = styled.div`
 
 export const CategoriesP = styled.p`
   margin-bottom: 14px;
-  color: #000;
+  color: ${({ theme }) => (theme === "light" ? "#000" : "#FFFFFF")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -221,6 +248,9 @@ export const PopBrowseBtnBrowse = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   ${({ $hide }) => $hide && "display: none;"}
+  @media (max-width: 660px) {
+    display: block;
+  }
 `;
 
 export const PopBrowseBtnEdit = styled.div`
@@ -235,6 +265,10 @@ export const BtnGroup = styled.div`
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  @media (max-width: 660px) {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
 `;
 
 export const BtnBor = styled.button`
